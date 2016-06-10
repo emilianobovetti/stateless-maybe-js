@@ -24,8 +24,6 @@ var OPTION = (function () {
         },
 
         module = function create (value, empty) {
-            var option;
-
             if (arguments.length == 1) {
                 empty = value === undefined || value === null;
             } else if (typeof empty == 'function') {
@@ -36,13 +34,14 @@ var OPTION = (function () {
 
             if (value && value.type == 'option') {
                 // value is already an option
-                option = value;
+                return value;
+            } else if (empty === true) {
+                return module.none;
+            } else if (empty === false) {
+                return module.some(value);
             } else {
-                // create new Some or return None
-                option = empty ? module.none : module.some(value);
+                throw new TypeError('empty value must be either true or false');
             }
-
-            return option;
         };
 
     module.some = function (value) {

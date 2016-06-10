@@ -19,7 +19,7 @@ E.g. `OPTION(0, 0) === OPTION.none`
 
 If another option is passed to the OPTION function, the option itself is returned.
 
-If `empty` is callable then it's applied to `value` and a None is returned if it yields a falsy value.
+If `empty` is callable then it's applied to `value` and a None is returned if it yields false.
 
 `OPTION.none` is a None instance.
 
