@@ -11,7 +11,7 @@ This is a porting of the [option type](https://en.wikipedia.org/wiki/Option_type
 
 ## Creating Options
 
-`OPTION(value, empty)` creates a new Option object based on the value.
+`OPTION(value, empty)` creates a new option object based on the value.
 The second parameter is optional, by default a None is returned if the value is `null` or `undefined`, or an `OPTION.some(value)` otherwise.
 
 This behavior can be changed with the second parameter.
@@ -24,6 +24,25 @@ If `empty` is callable then it's applied to `value` and a None is returned if it
 `OPTION.none` is a None instance.
 
 `OPTION.some(value)` returns a new Some wrapping `value`.
+
+## Using Options
+
+```javascript
+function getUser(id) {
+    ...
+
+    // if `user` is undefined or null
+    // None is returned
+    return OPTION(user);
+}
+
+// get user's date of birth
+// or 'unknown' if user doesn't exist
+// or property doesn't exist
+getUser(...)
+    .map(function (x) { return x.dateOfBirth; })
+    .getOrElse('unknown');
+```
 
 ## Option object properties
 
@@ -46,13 +65,13 @@ Returns a None otherwise.
 
 ### `option.forEach(Function fn)`
 Applies the given function to the option value if non-empty, does nothing otherwise.
-Returns Option itself.
+Returns option itself.
 
 ### `option.get()`
-Returns the value of the option or throws an Error if the Option is empty.
+Returns the value of the option or throws an Error if the option is empty.
 
 ### `option.getOrElse(mixed orElse)`
-If the Option is non-empty returns its value, returns `orElse` otherwise.
+If the option is non-empty returns its value, returns `orElse` otherwise.
 
 `orElse` can be:
 
