@@ -16,7 +16,7 @@
  *
  */
 
-(function (showAssertionResult) {
+(function () {
     'use strict';
 
     var successfulAssertionCounter = 0,
@@ -28,16 +28,15 @@
     function showAssertionResult (expected, actual) {
         var testResultsElement = document.getElementById('test-results-table'),
             rowElement = testResultsElement.insertRow(testResultsElement.rows.length),
-            assertionCallerName;
+            assertionCaller;
 
         try {
             throw new Error;
         } catch (e) {
-            assertionCallerName = e.stack.replace('Error\n', '').split('\n')[2].trim();
-            console.log(assertionCallerName);
+            assertionCaller = e.stack.replace('Error\n', '').split('\n')[2].trim();
         }
 
-        function __toString (value) {
+        function __show (value) {
             if (value && value.defined) {
                 return 'Some(' + value.get() + ')';
             } else if (value && value.empty) {
@@ -47,9 +46,9 @@
             }
         }
 
-        rowElement.insertCell(0).innerHTML = assertionCallerName;
-        rowElement.insertCell(1).innerHTML = __toString(expected);
-        rowElement.insertCell(2).innerHTML = __toString(actual);
+        rowElement.insertCell(0).innerHTML = assertionCaller;
+        rowElement.insertCell(1).innerHTML = __show(expected);
+        rowElement.insertCell(2).innerHTML = __show(actual);
         rowElement.insertCell(3).innerHTML = expected === actual;
     }
 
