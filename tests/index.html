@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style type="text/css">
+      body {
+        font-family: sans-serif;
+      }
+
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        empty-cells: show;
+        border: 1px solid #cbcbcb;
+      }
+
+      td, th {
+        border-left: 1px solid #cbcbcb;
+        border-width: 0 0 0 1px;
+        font-size: inherit;
+        margin: 0;
+        overflow: visible;
+        padding: 0.5em 1em;
+      }
+
+      tr:nth-child(odd) td {
+        background-color: #f2f2f2;
+      }
+
+      td:first-child, th:first-child {
+        border-left-width: 0;
+      }
+
+      thead {
+        background-color: #e0e0e0;
+        color: #000;
+        text-align: left;
+        vertical-align: bottom;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>Successful assertions: <span id="successful-assertion-counter">0</span></div>
+    <div>Assertion errors: <span id="error-assertion-counter">0</span></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>At</th>
+          <th>Expected</th>
+          <th>Actual</th>
+          <th>Success</th>
+        </tr>
+      </thead>
+      <tbody id="test-results-table">
+      </tbody>
+    </table>
+
+    <script type="text/javascript" src="../src/option.js"></script>
+    <script type="text/javascript" src="test.js"></script>
+  </body>
+
+</html>
