@@ -16,27 +16,25 @@
  *
  */
 
-(function () {
+(function (showAssertionResult) {
     'use strict';
 
-    var testResultsElement = document.getElementById('test-results-table'),
-        successfulAssertionCounter = 0,
+    var successfulAssertionCounter = 0,
         errorAssertionCounter = 0,
 
         some = OPTION.some(0),
         none = OPTION.none;
 
-    function assertEquals (expected, actual) {
-        var rowElement = testResultsElement.insertRow(testResultsElement.rows.length),
-            testName,
-            testLine;
+    function showAssertionResult (expected, actual) {
+        var testResultsElement = document.getElementById('test-results-table'),
+            rowElement = testResultsElement.insertRow(testResultsElement.rows.length),
+            assertionCallerName;
 
         try {
-            throw new Error();
+            throw new Error;
         } catch (e) {
-            [ testName, testLine ] =  (e.stack.split(' at ')[2] || e.stack.split('\n')[1].replace('@', ' ')).trim().split(' ');
-            testLine = testLine.split('/').pop().split(':');
-            testLine = testLine[0] + ':' + testLine[1];
+            assertionCallerName = e.stack.replace('Error\n', '').split('\n')[2].trim();
+            console.log(assertionCallerName);
         }
 
         function __toString (value) {
@@ -49,13 +47,21 @@
             }
         }
 
-        rowElement.insertCell(0).innerHTML = testName;
-        rowElement.insertCell(1).innerHTML = testLine;
-        rowElement.insertCell(2).innerHTML = __toString(expected);
-        rowElement.insertCell(3).innerHTML = __toString(actual);
-        rowElement.insertCell(4).innerHTML = expected === actual;
+        rowElement.insertCell(0).innerHTML = assertionCallerName;
+        rowElement.insertCell(1).innerHTML = __toString(expected);
+        rowElement.insertCell(2).innerHTML = __toString(actual);
+        rowElement.insertCell(3).innerHTML = expected === actual;
+    }
 
-        expected === actual ? successfulAssertionCounter++ : errorAssertionCounter++;
+    function assertEquals (expected, actual) {
+        if (expected === actual) {
+            successfulAssertionCounter++;
+        } else {
+            errorAssertionCounter++;
+            console.error('Assertion error. expected: ', expected, ' actual: ', actual);
+        }
+
+        showAssertionResult(expected, actual);
     }
 
     ////////////////

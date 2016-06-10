@@ -16,6 +16,10 @@
  *
  */
 
+if (window.OPTION !== undefined) {
+    throw new Error('window.OPTION not undefined');
+}
+
 window.OPTION = (function () {
     'use strict';
 
@@ -43,10 +47,6 @@ window.OPTION = (function () {
                 throw new TypeError('empty value must be either true or false');
             }
         };
-
-    if (window.OPTION !== undefined) {
-        throw new Error('window.OPTION not undefined');
-    }
 
     module.some = function (value) {
         var self = {};
