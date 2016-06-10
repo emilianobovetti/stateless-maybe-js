@@ -16,7 +16,7 @@
  *
  */
 
-var OPTION = (function () {
+window.OPTION = (function () {
     'use strict';
 
     var freeze = Object.freeze || function (object) {
@@ -43,6 +43,10 @@ var OPTION = (function () {
                 throw new TypeError('empty value must be either true or false');
             }
         };
+
+    if (window.OPTION !== undefined) {
+        throw new Error('window.OPTION not undefined');
+    }
 
     module.some = function (value) {
         var self = {};
