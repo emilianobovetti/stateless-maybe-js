@@ -28,7 +28,9 @@ window.OPTION = (function () {
         },
 
         module = function create (value, empty) {
-            if (arguments.length == 1) {
+            if (arguments.length == 0) {
+                throw new Error('Missing option value');
+            } else if (arguments.length == 1) {
                 empty = value === undefined || value === null;
             } else if (typeof empty == 'function') {
                 empty = empty(value);
