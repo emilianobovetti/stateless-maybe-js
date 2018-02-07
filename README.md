@@ -1,5 +1,5 @@
-MaybeJs
-=======
+stateless-maybe-js
+==================
 
 This is a porting of the maybe monad, or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
 
@@ -13,11 +13,10 @@ This is a porting of the maybe monad, or [option type](https://en.wikipedia.org/
 
 `maybe(someValue)` creates a new maybe object wrapping `someValue`, by default a `nothing` is returned if the value is `null` or `undefined`.
 
-The `maybe` function takes a second optional argument that can change the *emptiness* definition.
+The `maybe` function takes a second optional argument that can change the *emptiness* definition. <br>
 E.g.: `maybe(0, 0) === maybe.nothing`
 
-If another maybe is passed to the `maybe` function, the maybe object itself is returned.
-
+If another maybe is passed to the `maybe` function, the maybe object itself is returned. <br>
 If the second argument is callable then it's applied to `value` and a `nothing` is returned if it yields false.
 
 `maybe.nothing` is a `nothing` instance.
@@ -39,7 +38,7 @@ function getUser(id) {
 // or 'unknown' if user doesn't exist
 // or property doesn't exist
 getUser(...)
-    .map(function (x) { return x.dateOfBirth; })
+    .map(user => user.dateOfBirth)
     .getOrElse('unknown');
 ```
 
@@ -49,10 +48,10 @@ getUser(...)
 Contains the string `'maybe'`.
 
 ### `maybe.empty`
-`true` if the maybe is a `nothing` instance, false otherwise.
+`true` if the maybe is a `nothing`, false otherwise.
 
 ### `maybe.nonEmpty`
-Negation of `maybe.defined`.
+Negation of `maybe.empty`.
 
 ### `maybe.filter(Function fn)`
 If the maybe is non-empty and the given function returns false on its value, returns a `nothing`.
@@ -60,14 +59,14 @@ Returns the maybe itself otherwise.
 
 ### `maybe.map(Function fn)`
 If the maybe is non-empty returns another maybe wrapping the result of the function applied to the maybe value.
-Returns a `nothing` otherwise.
+Returns `nothing` otherwise.
 
 ### `maybe.forEach(Function fn)`
-Applies the given function to the maybe value if non-empty, does nothing otherwise.
+Applies the given function to the value if non-empty, does nothing otherwise.
 Returns maybe itself.
 
 ### `maybe.get()`
-Returns the value of the maybe or throws an Error if the maybe is empty.
+Returns the value of the maybe or throws an `Error` if the maybe is empty.
 
 ### `maybe.getOrElse(mixed orElse)`
 If the maybe is non-empty returns its value, returns `orElse` otherwise.
