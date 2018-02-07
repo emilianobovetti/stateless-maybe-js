@@ -1,39 +1,38 @@
-OptionJS
-========
+MaybeJs
+=======
 
-This is a porting of the [option type](https://en.wikipedia.org/wiki/Option_type) in JavaScript.
+This is a porting of the maybe monad, or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
 
 ## Installation
 
 ```HTML
-<script type="text/javascript" src="path/to/option.js"></script>
+<script type="text/javascript" src="path/to/maybe.js"></script>
 ```
 
-## Creating Options
+## How to create new Maybe
 
-`OPTION(value, empty)` creates a new option object based on the value.
-The second parameter is optional, by default a None is returned if the value is `null` or `undefined`, or an `OPTION.some(value)` otherwise.
+`maybe(someValue)` creates a new maybe object wrapping `someValue`, by default a `nothing` is returned if the value is `null` or `undefined`.
 
-This behavior can be changed with the second parameter.
-E.g. `OPTION(0, 0) === OPTION.none`
+The `maybe` function takes a second optional argument that can change the *emptiness* definition.
+E.g.: `maybe(0, 0) === maybe.nothing`
 
-If another option is passed to the OPTION function, the option itself is returned.
+If another maybe is passed to the `maybe` function, the maybe object itself is returned.
 
-If `empty` is callable then it's applied to `value` and a None is returned if it yields false.
+If the second argument is callable then it's applied to `value` and a `nothing` is returned if it yields false.
 
-`OPTION.none` is a None instance.
+`maybe.nothing` is a `nothing` instance.
 
-`OPTION.some(value)` returns a new Some wrapping `value`.
+`maybe.just(someValue)` returns a new `just` wrapping `someValue`.
 
-## Using Options
+## Using Maybes
 
 ```javascript
 function getUser(id) {
     ...
 
     // if `user` is undefined or null
-    // None is returned
-    return OPTION(user);
+    // `nothing` is returned
+    return maybe(user);
 }
 
 // get user's date of birth
@@ -44,45 +43,45 @@ getUser(...)
     .getOrElse('unknown');
 ```
 
-## Option object properties
+## Maybe object properties
 
-### `option.type`
-Contains the string `'option'`.
+### `maybe.type`
+Contains the string `'maybe'`.
 
-### `option.defined`
-`true` if the option is non-empty.
+### `maybe.empty`
+`true` if the maybe is a `nothing` instance, false otherwise.
 
-### `option.empty`
-`true` if the option is empty.
+### `maybe.nonEmpty`
+Negation of `maybe.defined`.
 
-### `option.filter(Function fn)`
-If the option is non-empty and the given function returns false on its value, returns a None.
-Returns the option itself otherwise.
+### `maybe.filter(Function fn)`
+If the maybe is non-empty and the given function returns false on its value, returns a `nothing`.
+Returns the maybe itself otherwise.
 
-### `option.map(Function fn)`
-If the option is non-empty returns another option wrapping the result of the function applied to the option value.
-Returns a None otherwise.
+### `maybe.map(Function fn)`
+If the maybe is non-empty returns another maybe wrapping the result of the function applied to the maybe value.
+Returns a `nothing` otherwise.
 
-### `option.forEach(Function fn)`
-Applies the given function to the option value if non-empty, does nothing otherwise.
-Returns option itself.
+### `maybe.forEach(Function fn)`
+Applies the given function to the maybe value if non-empty, does nothing otherwise.
+Returns maybe itself.
 
-### `option.get()`
-Returns the value of the option or throws an Error if the option is empty.
+### `maybe.get()`
+Returns the value of the maybe or throws an Error if the maybe is empty.
 
-### `option.getOrElse(mixed orElse)`
-If the option is non-empty returns its value, returns `orElse` otherwise.
+### `maybe.getOrElse(mixed orElse)`
+If the maybe is non-empty returns its value, returns `orElse` otherwise.
 
 `orElse` can be:
 
-1. a function - which is called and its result returned if the option is empty.
-2. any other value - which is returned in case the option is empty.
+1. a function - which is called and its result returned if the maybe is empty.
+2. any other value - which is returned in case the maybe is empty.
 
-### `option.getOrThrow(throwable e)`
-Returns the value of the option or throws `e` if the option is empty.
+### `maybe.getOrThrow(throwable e)`
+Returns the value of the maybe or throws `e` if the maybe is empty.
 
-### `option.orElse(mixed orElse)`
-Acts like `getOrElse`, but returns an option instead of its value.
+### `maybe.orElse(mixed orElse)`
+Acts like `getOrElse`, but returns an maybe instead of its value.
 
-### `option.toString()`
-Return the value casted to string id the option is non-empty, the empty string otherwise.
+### `maybe.toString()`
+Return the value casted to string id the maybe is non-empty, the empty string otherwise.
