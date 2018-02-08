@@ -1,8 +1,8 @@
 # directories
 base_dir		:= $(CURDIR)
 build_dir		:= $(base_dir)/dist
-node_modules	:= $(base_dir)/node_modules
-node_bin		:= $(node_modules)/.bin
+node_dir		:= $(base_dir)/node_modules
+node_bin		:= $(node_dir)/.bin
 # source
 js_source		:= $(base_dir)/src/maybe.js
 # target
@@ -28,4 +28,4 @@ test : yarn-check
 	@yarn run test
 
 clean :
-	@rm -rf $(node_modules) $(build_dir)
+	@rm -rf $(node_dir) $(build_dir)

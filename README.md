@@ -5,13 +5,19 @@ This is a porting of the maybe monad, or [option type](https://en.wikipedia.org/
 
 There are a bunch of maybe-js libraries, all very similar to each other, so here's why I wrote this one:
 
-1. Stateless: I tried to follow functional paradigm as much as possible. Once an object is created it will be never modified by the library. The wrapped value, anyway, is not side effect free: `filter`, `map` and `forEach` will apply a function on that value, but if you use functions without side effects in this context you'll get real stateless monads!
+1. Stateless: I tried to follow functional paradigm as much as possible. Once an object is created it will be never modified by the library, instead new `maybe`s are created when needed. The wrapped value, anyway, is not side effect free: `filter`, `map` and `forEach` will apply a function on that value, but if you use functions without side effects in this context you'll get real stateless monads!
 
 2. Syntax: with least surprise principle in mind I tried to use a well established syntax, similar to Scala's [Option](https://www.scala-lang.org/api/current/scala/Option.html) type. `filter`, `map` and `forEach` should sound and look familiar, and I think this really improves code readability.
 
-3. Robustness: the code is tested as possible. Beside that no `this` or `new` were harmed in the writing of this library. `maybe('hello')`, `maybe.call({}, 'hello')` and `maybe.apply(null, [ 'hello' ])` will just produce the same result. Isn't it cool?
+3. Simplicity: no fancy functions that would require crazy tests or updates, the code is trivial, anyone can read and modify as needed.
+
+4. Robustness: I'm trying to test as much as possible. Beside that no `this` or `new` were harmed in the writing of this library. `maybe('hello')`, `maybe.call({}, 'hello')` and `maybe.apply(null, [ 'hello' ])` will just produce the same result. Isn't it cool?
 
 ## Installation
+
+```
+$ npm install stateless-maybe-js
+```
 
 For browser installation all you need is to include the script.
 
@@ -23,7 +29,7 @@ For browser installation all you need is to include the script.
 
 A Makefile will call yarn for you and then uglifyjs to produce `./dist/maybe.min.js`. Just point your console to the project path and run `make`.
 
-Run `make test` if you want tu run all unit tests.
+Since I'm really lazy `make test` is a shortcut for `yarn run test`.
 
 ## How to create new Maybe
 
@@ -43,23 +49,40 @@ var isEmpty = function (value) {
 maybe(0, isEmpty).empty // true
 ```
 
-`Maybe`s aren't nested. `var m = maybe('hello'); m === maybe(m)`
+`Maybe`s aren't nested by constructor function.
 
-You can get `nothing` reference directly from `maybe.nothing` if you want, or you can get a `just` instance by calling `maybe.just(someValue)`. Pay attention: in this way no check are done, the object returned is always a `just`, so `maybe.just(null).empty` is `false`!
+```javascript
+var m = maybe('hello, world');
+
+// when maybe() receives a maybe monad
+// just returns itself
+m === maybe(m); // true
+```
+
+You can get `nothing` reference directly from `maybe.nothing` if you want, no need to call functions, `nothing` is stateless so only one object exists.
+
+You can get a `just` instance by calling `maybe.just(someValue)`. Pay attention: in this way no emptiness check are made, a `just` instance is always created.
+
+```javascript
+var m = maybe.just(null);
+
+m.empty // false
+m.get() // null
+```
 
 ## Using Maybes
 
 ```javascript
-function getUser(id) {
+var maybeGetUser = function (id) {
     // ...
 
     return maybe(user);
 }
 
-// get user's date of birth
-// or 'unknown' if user doesn't exist
-// or property doesn't exist
-getUser(id)
+// get user's date of birth or 'unknown'
+// if user doesn't exist or user.dateOfBirth
+// doesn't exist, is null or undefined
+maybeGetUser(id)
     .map(user => user.dateOfBirth)
     .getOrElse('unknown');
 ```
@@ -71,7 +94,7 @@ var maybeGetElementById = function (id) {
     return maybe(document.getElementById(id));
 };
 
-// remove element if exist
+// remove an element if exist
 maybeGetElementById('some-id')
     .forEach(element => element.remove());
 
@@ -90,7 +113,7 @@ maybeGetElementById('some-other-id')
 // on nothing
 maybeGetElementById('some-node')
     .map(e => e.innerText)
-    .toString()
+    .toString();
 ```
 
 ## Maybe object properties
