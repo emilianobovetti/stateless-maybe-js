@@ -38,7 +38,7 @@ Since I'm really lazy `make test` is a shortcut for `yarn run test`.
 The `maybe` function takes a second optional argument that can change the *emptiness* definition. <br>
 E.g.: `maybe(0, 0) === maybe.nothing`
 
-You can also use a function for *emptiness*, e.g.:
+You can also use a function for  emptiness * is non trivial, e.g.:
 
 ```javascript
 
@@ -68,6 +68,27 @@ var m = maybe.just(null);
 
 m.empty // false
 m.get() // null
+```
+
+This could be useful to create maybe monads when the emptiness logic is non trivial. E.g.:
+
+```javascript
+var maybeYoungPeople = function (people, maxAge, atLeast) {
+    var areYoung = people
+        .reduce((acc, p) => acc && p.age <= maxAge, true);
+
+    if (people.length >= atLeast && areYoung) {
+        return maybe.just(people);
+    } else {
+        return maybe.nothing;
+    }
+};
+
+var people = [ { age: 10 }, { age: 15 } ];
+
+maybeYoungPeople(people, 16, 2).empty; // false
+maybeYoungPeople(people, 14, 2).empty; // true
+maybeYoungPeople(people, 16, 3).empty; // true
 ```
 
 ## Using Maybes
