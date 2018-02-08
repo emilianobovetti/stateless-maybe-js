@@ -38,7 +38,7 @@ Since I'm really lazy `make test` is a shortcut for `yarn run test`.
 The `maybe` function takes a second optional argument that can change the *emptiness* definition. <br>
 E.g.: `maybe(0, 0) === maybe.nothing`
 
-You can also use a function for  emptiness * is non trivial, e.g.:
+You can also use a function here if emptiness is non trivial. E.g.:
 
 ```javascript
 
@@ -108,7 +108,7 @@ maybeGetUser(id)
     .getOrElse('unknown');
 ```
 
-You can use the `maybe` function to wrap a lot of useful objects, e.g.:
+You can use the `maybe` function to wrap a lot of useful objects. E.g.:
 
 ```javascript
 var maybeGetElementById = function (id) {
