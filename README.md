@@ -1,7 +1,7 @@
 stateless-maybe-js
 ==================
 
-This is a porting of the maybe monad, or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
+This is a porting of the [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad), or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
 
 There are a bunch of maybe-js libraries, all very similar to each other, so here's why I wrote this one:
 
@@ -19,10 +19,16 @@ There are a bunch of maybe-js libraries, all very similar to each other, so here
 $ npm install stateless-maybe-js
 ```
 
-For browser installation all you need is to include the script.
+For browser installation all you need is to include the script:
 
 ```HTML
 <script type="text/javascript" src="path/to/dist/maybe.min.js"></script>
+```
+
+or require in node:
+
+```javascript
+const maybe = require('stateless-maybe-js');
 ```
 
 ## Build
@@ -91,6 +97,17 @@ maybeYoungPeople(people, 14, 2).empty; // true
 maybeYoungPeople(people, 16, 3).empty; // true
 ```
 
+## Type specific constructors
+
+### `maybe.string(value)`
+Checks if `typeof value` is `string` and it's not an empty string.
+
+### `maybe.number(value)`
+Returns `maybe.just(value)` if `typeof value === 'number'`.
+
+### `maybe.object(value)`
+Checks if `typeof value` is `object` and it's not `null`.
+
 ## Using Maybes
 
 ```javascript
@@ -135,6 +152,38 @@ maybeGetElementById('some-other-id')
 maybeGetElementById('some-node')
     .map(e => e.innerText)
     .toString();
+```
+
+If there are a lot of objects wrapped in `maybe`s, then it might seem hard to handle them and nesting functions might seem the only way to go. In this case `filter` could be a good option.
+For example we could write a function to update meta description only if the meta tag exists and the given description is a non-empty string:
+
+```javascript
+// plain javascript
+var updateMetaDescription = function (desc) {
+    var metaDescription = document.getElementById('meta-description');
+
+    if (metaDescription !== null && typeof desc === 'string' && desc !== '') {
+        metaDescription.setAttribute('content', desc);
+    }
+};
+
+// now nesting maybe.forEach
+var updateMetaDescription = function (desc) {
+    maybe(document.getElementById('meta-description'))
+        .forEach(function (element) {
+            maybe.string(desc).forEach(function () {
+                // okay, this is worse
+                element.setAttribute('content', desc);
+            });
+        });
+};
+
+// using maybe.filter
+var updateMetaDescription = function (desc) {
+    maybe(document.getElementById('meta-description'))
+        .filter(() => maybe.string(desc).nonEmpty)
+        .forEach((el) => el.setAttribute('content', desc));
+};
 ```
 
 ## Maybe object properties
