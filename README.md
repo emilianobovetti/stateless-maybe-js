@@ -1,5 +1,4 @@
-stateless-maybe-js
-==================
+# stateless-maybe-js [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js)
 
 This is a porting of the [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad), or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
 
