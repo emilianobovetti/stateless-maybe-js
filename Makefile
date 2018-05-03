@@ -1,31 +1,29 @@
 # directories
-base_dir		:= $(CURDIR)
-build_dir		:= $(base_dir)/dist
-node_dir		:= $(base_dir)/node_modules
-node_bin		:= $(node_dir)/.bin
+base_dir	:= $(CURDIR)
+build_dir	:= $(base_dir)/dist
+node_dir	:= $(base_dir)/node_modules
+node_bin	:= $(node_dir)/.bin
 # source
-js_source		:= $(base_dir)/src/maybe.js
+js_source	:= $(base_dir)/src/maybe.js
 # target
-min_target		:= $(build_dir)/maybe.min.js
+min_target	:= $(build_dir)/maybe.min.js
 # node_modules executables
-uglifyjs		:= $(node_bin)/uglifyjs
+uglifyjs	:= $(node_bin)/uglifyjs
 
-.PHONY: test
-
-all : build-env
-	@yarn
+all : yarn-check test
+	@mkdir -p $(build_dir)
 	@$(uglifyjs) $(js_source) > $(min_target)
 
-build-env :
-	@mkdir -p $(build_dir)
+.PHONY: test
+test : yarn-check
+	@yarn run test
 
+.PHONY: yarn-check
 yarn-check :
 ifeq ("$(wildcard $(node_bin))", "")
 	@yarn
 endif
 
-test : yarn-check
-	@yarn run test
-
+.PHONY: clean
 clean :
 	@rm -rf $(node_dir) $(build_dir)
