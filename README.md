@@ -80,7 +80,7 @@ This could be useful to create maybe monads when the emptiness logic is non triv
 ```javascript
 var maybeYoungPeople = function (people, maxAge, atLeast) {
     var areYoung = people
-        .reduce((acc, p) => acc && p.age <= maxAge, true);
+            .reduce((acc, p) => acc && p.age <= maxAge, true);
 
     if (people.length >= atLeast && areYoung) {
         return maybe.just(people);
@@ -181,9 +181,15 @@ var updateMetaDescription = function (desc) {
 var updateMetaDescription = function (desc) {
     maybe(document.getElementById('meta-description'))
         .filter(() => maybe.string(desc).nonEmpty)
-        .forEach((el) => el.setAttribute('content', desc));
+        .forEach(el => el.setAttribute('content', desc));
 };
 ```
+
+## Other usage examples
+
+- [Cache function result](https://gist.github.com/emilianobovetti/9245d6b0c3dc03461446fadc6a3c75da)
+
+- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/a01adec97875e3af177a138d1a311e524bef1014/assets/js/main.js#L18)
 
 ## Maybe object properties
 
