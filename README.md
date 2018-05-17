@@ -189,7 +189,7 @@ var updateMetaDescription = function (desc) {
 
 - [Cache function result](https://gist.github.com/emilianobovetti/9245d6b0c3dc03461446fadc6a3c75da)
 
-- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/a01adec97875e3af177a138d1a311e524bef1014/assets/js/main.js#L18)
+- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/c0a8a735356b5f0825853012f3247baa36257ce2/assets/js/main.js#L18)
 
 ## Maybe object properties
 
