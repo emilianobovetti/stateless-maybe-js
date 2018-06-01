@@ -36,22 +36,25 @@
         return object;
     };
 
+    var ctor = function () {};
+
     var maybe = function (value, empty) {
         if (arguments.length === 0) {
             throw new Error('Missing value in maybe constructor');
         } else if (arguments.length === 1) {
-            empty = value === undefined || value === null;
+            // value is null or undefined
+            empty = value == null;
         } else if (typeof empty === 'function') {
             empty = empty(value);
         } else {
             empty = value === empty;
         }
 
-        if (value && value.type === 'maybe') {
+        if (empty === true) {
+            return maybe.nothing;
+        } else if (value instanceof ctor) {
             // value is already a maybe
             return value;
-        } else if (empty === true) {
-            return maybe.nothing;
         } else if (empty === false) {
             return maybe.just(value);
         } else {
@@ -76,15 +79,16 @@
     };
 
     maybe.object = function (value) {
-        if (typeof value !== 'object' || value === null) {
+        if (typeof value !== 'object') {
             return maybe.nothing;
         } else {
-            return maybe.just(value);
+            // check for null and for maybe instance
+            return maybe(value);
         }
     };
 
     maybe.just = function (value) {
-        var self = {};
+        var self = new ctor();
 
         self.type = 'maybe';
 
@@ -130,7 +134,7 @@
     };
 
     maybe.nothing = (function () {
-        var self = {};
+        var self = new ctor();
 
         self.type = 'maybe';
 

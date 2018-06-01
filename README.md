@@ -32,29 +32,23 @@ const maybe = require('stateless-maybe-js');
 
 ## Build
 
-A Makefile will call yarn for you and then uglifyjs to produce `./dist/maybe.min.js`. Just point your console to the project path and run `make`.
-
-Since I'm really lazy `make test` is a shortcut for `yarn run test`.
+A Makefile will call yarn for you and then uglifyjs to produce `./dist/maybe.min.js`. Just point your console to the project path and run `make`. `make test` is a shortcut for `yarn run test`.
 
 ## How to create new Maybe
 
-`maybe(someValue)` creates a new maybe object wrapping `someValue`. By default `nothing` is returned if the value is `null` or `undefined`.
-
-The `maybe` function takes a second optional argument that can change the *emptiness* definition. <br>
-E.g.: `maybe(0, 0) === maybe.nothing`
-
-You can also use a function here if emptiness is non trivial. E.g.:
+`maybe(someValue)` creates a new maybe object wrapping `someValue`. A `nothing` is returned if the value is `null` or `undefined`. E.g.:
 
 ```javascript
+var m1 = maybe('hello, world');
+var m2 = maybe(undefined);
+var m3 = maybe(null);
 
-var isEmpty = function (value) {
-    return value === null || value === undefined || value === 0;
-};
-
-maybe(0, isEmpty).empty // true
+m1.empty // false
+m2.empty // true
+m3.empty // true
 ```
 
-`Maybe`s aren't nested by constructor function.
+`maybe` objects aren't nested by constructor function.
 
 ```javascript
 var m = maybe('hello, world');
@@ -63,19 +57,9 @@ var m = maybe('hello, world');
 // just returns itself
 m === maybe(m); // true
 ```
+The `maybe` function takes a second optional argument, but I never used this feature and I'm planning to remove it in a future release.
 
-You can get `nothing` reference directly from `maybe.nothing` if you want, no need to call functions, `nothing` is stateless so only one object exists.
-
-You can get a `just` instance by calling `maybe.just(someValue)`. Pay attention: in this way no emptiness check are made, a `just` instance is always created.
-
-```javascript
-var m = maybe.just(null);
-
-m.empty // false
-m.get() // null
-```
-
-This could be useful to create maybe monads when the emptiness logic is non trivial. E.g.:
+If the emptiness definition isn't trivial (i.e. `null` or `undefined`), you can use `maybe.nothing` and `maybe.just()`. E.g.:
 
 ```javascript
 var maybeYoungPeople = function (people, maxAge, atLeast) {
@@ -94,6 +78,15 @@ var people = [ { age: 10 }, { age: 15 } ];
 maybeYoungPeople(people, 16, 2).empty; // false
 maybeYoungPeople(people, 14, 2).empty; // true
 maybeYoungPeople(people, 16, 3).empty; // true
+```
+
+Note that `maybe.just()`, unlike `maybe()`, doesn't make any emptiness check. A `just` instance is always created.
+
+```javascript
+var m = maybe.just(null);
+
+m.empty // false
+m.get() // null
 ```
 
 ## Type specific constructors
@@ -189,12 +182,9 @@ var updateMetaDescription = function (desc) {
 
 - [Cache function result](https://gist.github.com/emilianobovetti/9245d6b0c3dc03461446fadc6a3c75da)
 
-- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/c0a8a735356b5f0825853012f3247baa36257ce2/assets/js/main.js#L18)
+- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/aed9f8f7b75111244407f1c9cd342707ed989371/assets/js/main.js#L151)
 
 ## Maybe object properties
-
-### `maybe.type`
-Contains the string `'maybe'`.
 
 ### `maybe.empty`
 `true` if the maybe is `nothing`, false otherwise.
@@ -233,3 +223,6 @@ Acts like `getOrElse`, but returns an maybe instead of its value.
 
 ### `maybe.toString()`
 Returns the value casted to string if the maybe is non-empty, an empty string otherwise.
+
+### `maybe.type` - deprecated
+Contains the string `'maybe'`.
