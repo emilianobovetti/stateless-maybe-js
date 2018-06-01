@@ -49,17 +49,5 @@ describe('maybe.just(null)', () => {
         it('should be null', () => {
             assert.equal(null, maybe.just(null).get());
         });
-
-        context('also when is created through maybe(null, 0)', () => {
-            it('should be null', () => {
-                assert.equal(null, maybe(null, 0).get());
-            });
-        });
-
-        context('also when is created through maybe(null, x => x === 0)', () => {
-            it('should be null', () => {
-                assert.equal(null, maybe(null, x => x === 0).get());
-            });
-        });
     });
 });
