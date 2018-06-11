@@ -16,42 +16,42 @@
  *
  */
 
-const maybe = require('../src/maybe');
-const assert = require('assert');
+/* global describe, it */
 
-const nothing = maybe.nothing;
-const justZero = maybe.just(0);
+const maybe = require('../src/maybe')
+const assert = require('assert')
+
+const nothing = maybe.nothing
+const justZero = maybe.just(0)
 
 describe('maybe.nothing', () => {
+  describe('#forEach()', () => {
+    it('should not call its function', () => {
+      let called = false
 
-    describe('#forEach()', () => {
-        it('should not call its function', () => {
-            let called = false;
+      nothing.forEach(function () { called = true })
 
-            nothing.forEach(x => called = true);
-
-            assert.equal(false, called);
-        });
-    });
-});
+      assert.equal(false, called)
+    })
+  })
+})
 
 describe('maybe.just(0)', () => {
+  describe('#forEach()', () => {
+    it('should call its function', () => {
+      let called = false
 
-    describe('#forEach()', () => {
-        it('should call its function', () => {
-            let called = false;
+      justZero.forEach(function () { called = true })
 
-            justZero.forEach(x => called = true);
+      assert.equal(true, called)
+    })
 
-            assert.equal(true, called);
-        });
+    it('should send its value as argument', () => {
+      let value
 
-        it('should send its value as argument', () => {
-            let value;
+      justZero.forEach(function (x) { value = x })
 
-            justZero.forEach(x => value = x);
-
-            assert.equal(0, value);
-        });
-    });
-});
+      assert.equal(0, value)
+    })
+  })
+})

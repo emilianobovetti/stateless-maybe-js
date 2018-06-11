@@ -16,28 +16,28 @@
  *
  */
 
-const maybe = require('../src/maybe');
-const assert = require('assert');
+/* global describe, it */
 
-const nothing = maybe.nothing;
-const justZero = maybe.just(0);
+const maybe = require('../src/maybe')
+const assert = require('assert')
+
+const nothing = maybe.nothing
+const justZero = maybe.just(0)
 
 describe('maybe.nothing', () => {
-
-    describe('#getOrThrow()', () => {
-        it('should throw an error', () => {
-            assert.throws(() => nothing.getOrThrow());
-            assert.throws(() => nothing.getOrThrow(new Error));
-        });
-    });
-});
+  describe('#getOrThrow()', () => {
+    it('should throw an error', () => {
+      assert.throws(() => nothing.getOrThrow())
+      assert.throws(() => nothing.getOrThrow(new Error()))
+    })
+  })
+})
 
 describe('maybe.just(0)', () => {
-
-    describe('#getOrThrow()', () => {
-        it('should be equal to 0', () => {
-            assert.equal(0, justZero.getOrThrow());
-            assert.equal(0, justZero.getOrThrow(new Error));
-        });
-    });
-});
+  describe('#getOrThrow()', () => {
+    it('should be equal to 0', () => {
+      assert.equal(0, justZero.getOrThrow())
+      assert.equal(0, justZero.getOrThrow(new Error()))
+    })
+  })
+})

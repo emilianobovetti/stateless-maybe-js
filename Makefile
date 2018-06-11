@@ -10,9 +10,13 @@ min_target	:= $(build_dir)/maybe.min.js
 # node_modules executables
 uglifyjs	:= $(node_bin)/uglifyjs
 
-all : yarn-check test
+all : yarn-check standard test
 	@mkdir -p $(build_dir)
 	@$(uglifyjs) $(js_source) > $(min_target)
+
+.PHONY: standard
+standard : yarn-check
+	@yarn run standard
 
 .PHONY: test
 test : yarn-check

@@ -16,38 +16,38 @@
  *
  */
 
-const maybe = require('../src/maybe');
-const assert = require('assert');
+/* global describe, it */
 
-const nothing = maybe.nothing;
-const justZero = maybe.just(0);
+const maybe = require('../src/maybe')
+const assert = require('assert')
+
+const nothing = maybe.nothing
+const justZero = maybe.just(0)
 
 describe('maybe.nothing', () => {
+  describe('#filter(x => false)', () => {
+    it('should be equal to maybe.nothing', () => {
+      assert.equal(nothing, nothing.filter(x => false))
+    })
+  })
 
-    describe('#filter(x => false)', () => {
-        it('should be equal to maybe.nothing', () => {
-            assert.equal(nothing, nothing.filter(x => false));
-        });
-    });
-
-    describe('#filter(x => true)', () => {
-        it('should be equal to maybe.nothing', () => {
-            assert.equal(nothing, nothing.filter(x => true));
-        });
-    });
-});
+  describe('#filter(x => true)', () => {
+    it('should be equal to maybe.nothing', () => {
+      assert.equal(nothing, nothing.filter(x => true))
+    })
+  })
+})
 
 describe('maybe.just(0)', () => {
+  describe('#filter(x => false)', () => {
+    it('should be equal to maybe.nothing', () => {
+      assert.equal(nothing, justZero.filter(x => false))
+    })
+  })
 
-    describe('#filter(x => false)', () => {
-        it('should be equal to maybe.nothing', () => {
-            assert.equal(nothing, justZero.filter(x => false));
-        });
-    });
-
-    describe('#filter(x => true)', () => {
-        it('should be equal to itself', () => {
-            assert.equal(justZero, justZero.filter(x => true));
-        });
-    });
-});
+  describe('#filter(x => true)', () => {
+    it('should be equal to itself', () => {
+      assert.equal(justZero, justZero.filter(x => true))
+    })
+  })
+})

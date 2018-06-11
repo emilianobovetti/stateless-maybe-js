@@ -16,50 +16,49 @@
  *
  */
 
-const maybe = require('../src/maybe');
-const assert = require('assert');
+/* global describe, context, it */
+
+const maybe = require('../src/maybe')
+const assert = require('assert')
 
 describe('maybe.nothing', () => {
-
-    describe('#get()', () => {
-        it('should throw an error', () => {
-            assert.throws(() => maybe.nothing.get());
-        });
-    });
-});
+  describe('#get()', () => {
+    it('should throw an error', () => {
+      assert.throws(() => maybe.nothing.get())
+    })
+  })
+})
 
 describe('maybe.just(0)', () => {
+  describe('#get()', () => {
+    it('should be 0', () => {
+      assert.equal(0, maybe.just(0).get())
+    })
 
-    describe('#get()', () => {
-        it('should be 0', () => {
-            assert.equal(0, maybe.just(0).get());
-        });
-
-        context('also when is created through maybe(0)', () => {
-            it('should be 0', () => {
-                assert.equal(0, maybe(0).get());
-            });
-        });
-    });
-});
+    context('also when is created through maybe(0)', () => {
+      it('should be 0', () => {
+        assert.equal(0, maybe(0).get())
+      })
+    })
+  })
+})
 
 describe('maybe.just(null)', () => {
+  describe('#get()', () => {
+    it('should be null', () => {
+      assert.equal(null, maybe.just(null).get())
+    })
 
-    describe('#get()', () => {
-        it('should be null', () => {
-            assert.equal(null, maybe.just(null).get());
-        });
+    context('also when is created through maybe(null, 0)', () => {
+      it('should be null', () => {
+        assert.equal(null, maybe(null, 0).get())
+      })
+    })
 
-        context('also when is created through maybe(null, 0)', () => {
-            it('should be null', () => {
-                assert.equal(null, maybe(null, 0).get());
-            });
-        });
-
-        context('also when is created through maybe(null, x => x === 0)', () => {
-            it('should be null', () => {
-                assert.equal(null, maybe(null, x => x === 0).get());
-            });
-        });
-    });
-});
+    context('also when is created through maybe(null, x => x === 0)', () => {
+      it('should be null', () => {
+        assert.equal(null, maybe(null, x => x === 0).get())
+      })
+    })
+  })
+})

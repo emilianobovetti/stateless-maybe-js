@@ -16,38 +16,38 @@
  *
  */
 
-const maybe = require('../src/maybe');
-const assert = require('assert');
+/* global describe, it */
 
-const nothing = maybe.nothing;
-const justZero = maybe.just(0);
+const maybe = require('../src/maybe')
+const assert = require('assert')
+
+const nothing = maybe.nothing
+const justZero = maybe.just(0)
 
 describe('maybe.nothing', () => {
+  describe('#getOrElse(1)', () => {
+    it('should be equal to 1', () => {
+      assert.equal(1, nothing.getOrElse(1))
+    })
+  })
 
-    describe('#getOrElse(1)', () => {
-        it('should be equal to 1', () => {
-            assert.equal(1, nothing.getOrElse(1));
-        });
-    });
-
-    describe('#getOrElse(() => 1)', () => {
-        it('should be equal to 1', () => {
-            assert.equal(1, nothing.getOrElse(() => 1));
-        });
-    });
-});
+  describe('#getOrElse(() => 1)', () => {
+    it('should be equal to 1', () => {
+      assert.equal(1, nothing.getOrElse(() => 1))
+    })
+  })
+})
 
 describe('maybe.just(0)', () => {
+  describe('#getOrElse(1)', () => {
+    it('should be equal to 0', () => {
+      assert.equal(0, justZero.getOrElse(1))
+    })
+  })
 
-    describe('#getOrElse(1)', () => {
-        it('should be equal to 0', () => {
-            assert.equal(0, justZero.getOrElse(1));
-        });
-    });
-
-    describe('#getOrElse(() => 1)', () => {
-        it('should be equal to 0', () => {
-            assert.equal(0, justZero.getOrElse(() => 1));
-        });
-    });
-});
+  describe('#getOrElse(() => 1)', () => {
+    it('should be equal to 0', () => {
+      assert.equal(0, justZero.getOrElse(() => 1))
+    })
+  })
+})
