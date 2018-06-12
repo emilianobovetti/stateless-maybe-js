@@ -28,7 +28,7 @@ A Makefile will call yarn for you and then uglifyjs to produce `./dist/maybe.min
 
 ## How to create new Maybe
 
-`maybe(someValue)` creates a new maybe object wrapping `someValue`. A `nothing` is returned if the value is `null` or `undefined`. E.g.:
+`maybe(someValue)` creates a new `Maybe` object wrapping `someValue`. A `Nothing` is returned if the value is `null` or `undefined`. E.g.:
 
 ```javascript
 var m1 = maybe('hello, world')
@@ -40,7 +40,7 @@ m2.empty // true
 m3.empty // true
 ```
 
-`maybe` objects aren't nested by constructor function.
+`Maybe` objects aren't nested by constructor function.
 
 ```javascript
 var m = maybe('hello, world')
@@ -71,7 +71,7 @@ maybeYoungPeople(people, 14, 2).empty // true
 maybeYoungPeople(people, 16, 3).empty // true
 ```
 
-Note that `maybe.just()`, unlike `maybe()`, doesn't make any emptiness check. A `just` instance is always created.
+Note that `maybe.just()`, unlike `maybe()`, doesn't make any emptiness check. A `Just` instance is always created.
 
 ```javascript
 var m = maybe.just(null)
@@ -108,7 +108,7 @@ maybeGetUser(id)
   .getOrElse('unknown')
 ```
 
-You can use the `maybe` function to wrap a lot of useful objects. E.g.:
+You can use the `maybe()` function to wrap a lot of useful objects. E.g.:
 
 ```javascript
 function maybeGetElementById (id) {
@@ -137,7 +137,7 @@ maybeGetElementById('some-node')
   .toString()
 ```
 
-If there are a lot of objects wrapped in `maybe`s, then it might seem hard to handle them and nesting functions might seem the only way to go. In this case `filter` could be a good option.
+Dealing with many `Maybe`s seems hard at first and nesting functions might seem the only way to go. In this case `filter` could be a good option.
 For example we could write a function to update meta description only if the meta tag exists and the given description is a non-empty string:
 
 ```javascript

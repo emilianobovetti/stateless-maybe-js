@@ -40,7 +40,7 @@
 
   function Ctor () {}
 
-  var maybe = function (value) {
+  function maybe (value) {
     if (value == null) {
       // null or undefined
       return maybe.nothing

@@ -261,3 +261,9 @@ To sum up the main design decisions:
 
     This library is the result of a journey into the world of functional object oriented programming. I have considered many design choices and come up with this after a lot of thinking. I hope you enjoy.
 
+One word on performance
+-----------------------
+
+There is a drawback with information hiding. Using a closure instead of `this.value = value`, according to my measures, it slows down the creation of new `Maybe` about by a factor of ten.
+
+In my opinion execution speed isn't crucial, if you need raw speed you typically don't want to use any `Maybe` because you don't want any overhead. Just like array `map` and `reduce` I'll happily pay this cost, since in the great majority of use cases it doesn't make any difference.
