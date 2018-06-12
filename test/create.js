@@ -37,14 +37,6 @@ describe('maybe', () => {
     it('should be equal to maybe(undefined)', () => {
       assert.equal(nothing, maybe(undefined))
     })
-
-    it('should be equal to maybe(0, 0)', () => {
-      assert.equal(nothing, maybe(0, 0))
-    })
-
-    it('should be equal to maybe(0, x => x === 0)', () => {
-      assert.equal(nothing, maybe(0, x => x === 0))
-    })
   })
 
   describe('#just(0)', () => {

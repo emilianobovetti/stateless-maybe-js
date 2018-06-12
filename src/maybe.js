@@ -38,29 +38,17 @@
     return object
   }
 
-  var Ctor = function () {}
+  function Ctor () {}
 
-  var maybe = function (value, empty) {
-    if (arguments.length === 0) {
-      throw new Error('Missing value in maybe constructor')
-    } else if (arguments.length === 1) {
-      // value is null or undefined
-      empty = value == null
-    } else if (typeof empty === 'function') {
-      empty = empty(value)
-    } else {
-      empty = value === empty
-    }
-
-    if (empty === true) {
+  var maybe = function (value) {
+    if (value == null) {
+      // null or undefined
       return maybe.nothing
     } else if (value instanceof Ctor) {
       // value is already a maybe
       return value
-    } else if (empty === false) {
-      return maybe.just(value)
     } else {
-      throw new TypeError('Non boolean "empty" value in maybe constructor')
+      return maybe.just(value)
     }
   }
 
@@ -84,52 +72,61 @@
     if (typeof value !== 'object') {
       return maybe.nothing
     } else {
-      // check for null and for maybe instance
       return maybe(value)
     }
   }
 
+  Ctor.prototype = freeze({
+    filter: function (fn) {
+      return this.empty
+        ? this
+        : fn(this.get()) ? this : maybe.nothing
+    },
+
+    map: function (fn) {
+      return this.empty
+        ? this
+        : maybe(fn(this.get()))
+    },
+
+    forEach: function (fn) {
+      if (this.nonEmpty) fn(this.get())
+
+      return this
+    },
+
+    orElse: function (orElse) {
+      return this.nonEmpty
+        ? this
+        : maybe(this.getOrElse(orElse))
+    },
+
+    getOrElse: function (orElse) {
+      return this.nonEmpty
+        ? this.get()
+        : typeof orElse === 'function' ? orElse() : orElse
+    },
+
+    getOrThrow: function (e) {
+      if (this.nonEmpty) return this.get()
+
+      throw e || new Error('Trying to get value of Nothing')
+    },
+
+    toString: function () {
+      return this.empty ? '' : String(this.get())
+    }
+  })
+
   maybe.just = function (value) {
     var self = new Ctor()
-
-    self.type = 'maybe'
 
     self.empty = false
 
     self.nonEmpty = true
 
-    self.filter = function (fn) {
-      return fn(value) ? self : maybe.nothing
-    }
-
-    self.map = function (fn) {
-      return maybe(fn(value))
-    }
-
-    self.forEach = function (fn) {
-      fn(value)
-
-      return self
-    }
-
     self.get = function () {
       return value
-    }
-
-    self.getOrElse = function (orElse) {
-      return value
-    }
-
-    self.getOrThrow = function (e) {
-      return value
-    }
-
-    self.orElse = function (orElse) {
-      return self
-    }
-
-    self.toString = function () {
-      return String(value)
     }
 
     return freeze(self)
@@ -138,42 +135,12 @@
   maybe.nothing = (function () {
     var self = new Ctor()
 
-    self.type = 'maybe'
-
     self.empty = true
 
     self.nonEmpty = false
 
-    self.filter = function (fn) {
-      return self
-    }
-
-    self.map = function (fn) {
-      return self
-    }
-
-    self.forEach = function (fn) {
-      return self
-    }
-
     self.get = function () {
       self.getOrThrow()
-    }
-
-    self.getOrElse = function (orElse) {
-      return typeof orElse === 'function' ? orElse() : orElse
-    }
-
-    self.getOrThrow = function (e) {
-      throw e || new Error('Trying to get value of Nothing')
-    }
-
-    self.orElse = function (orElse) {
-      return maybe(self.getOrElse(orElse))
-    }
-
-    self.toString = function () {
-      return ''
     }
 
     return freeze(self)
