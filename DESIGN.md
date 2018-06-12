@@ -14,7 +14,7 @@ First of all to implement a Maybe monad<sup>[[1]](https://en.wikipedia.org/wiki/
 
 3. A `bind` function that unwraps the value of a `Maybe T` and returns a `Maybe U` using a function that can transform a `T` into a `Maybe U`.
 
-Leaving aside for the moment that we cannot define a type constructor or enforce types in JavaScript, a first implementation may look like this
+Leaving aside for the moment that we cannot define a type constructor or enforce types in JavaScript, a first implementation may look like this:
 
 ```javascript
 function unit (v) {
@@ -23,22 +23,22 @@ function unit (v) {
 
 function bind (maybe, fn) {
   // Note that val == null means
-  // val === undefined || val == null.
+  // val === undefined || val === null
   return (maybe || {}).val == null ? {} : fn(maybe.val)
 }
 ```
 
-Now we could use these functions instead of dealing with `null` or `undefined`
+Now we could use these functions instead of dealing with `null` or `undefined`:
 
 ```javascript
 function inc (x) {
   return unit(x + 1)
 }
 
-var j1 = unit(1) // Just(1)
+var j1 = unit(1)
 var j2 = bind(j1, inc) // Just(2)
 
-var n1 = null // Nothing
+var n1 = null
 var n2 = bind(n1, inc) // Nothing
 ```
 
@@ -58,22 +58,22 @@ I think the three major problems with this approach are:
 3. Return type of `bind`.
 
     In a functional language we could enforce the type of the function passed to `bind` to make sure that it returns a `Maybe`.
-    Since this is not possible here we can pass to `bind` a function that doesn't return a `Maybe`
+    Since this is not possible here we can pass to `bind` a function that doesn't return a `Maybe`.
 
     `var a = bind(unit(1), x => x + 1)`
 
-    Now `a` is `2`, not `Just(2)`, so `bind(a, x => x + 1)` would be `Nothing`, not `3`.
+    Now `a` is `2` -- not `Just(2)` -- so `bind(a, x => x + 1)` will be `Nothing`, not `3`.
 
     Furthermore `bind(null, x => x + 1))` returns a `Nothing` while `bind(unit(1), x => x + 1)` returns `2`, so the `bind` function returns a `Maybe` in the first case and a `number` in the second. That's odd!
 
 Introducing objects
 -------------------
 
-Consider the following code
+Consider the following code:
 
 ```javascript
 // Façade function, basically an helper to call
-// new Maybe.Nothing() or new Maybe.Just().
+// `new Maybe.Nothing()` or `new Maybe.Just()`.
 function Maybe (val) {
   return val == null ? new Maybe.Nothing() : new Maybe.Just(val)
 }
@@ -92,7 +92,8 @@ Maybe.Nothing.prototype.bind = function () {
   return this
 }
 ```
-Like before let's see this code in action
+
+Like before let's see this code in action:
 
 ```javascript
 function inc (x) {
@@ -140,9 +141,9 @@ Maybe.Nothing.prototype.map = function () {
 }
 ```
 
-It doesn't matter what `fn` returns, `map` method will always return a `Maybe` instance.
+The library guarantees us that `aMaybe.map(fn)` and I think this is a great feature because we can look at that expression without knowing anything about `fn` and tell that expression is still a `Maybe`.
 
-To create a `new Maybe.Nothing()` every time a `Nothing` instance is needed is a waste. Performance isn't one of the design goals, but there is no point in create a lot of identical object.
+Anyway to create a `new Maybe.Nothing()` every time a `Nothing` instance is needed is a waste. Performance isn't one of the design goals, but there is no point in create a lot of identical object.
 
 ```javascript
 function Maybe (val) {
@@ -167,20 +168,19 @@ Maybe.Ctor.prototype.map = function (fn) {
 }
 ```
 
-We use `Maybe.Ctor` to create a `Maybe` instance so we can check if they are `Maybe` with `obj instanceof Maybe.Ctor`, then we attach the methods to its prototype. Now only one `Nothing` instance exist `Maybe(undefined) === Maybe(null)`. As a bonus the `new` keyword is no longer needed when calling `Maybe.Just()`.
+We use `Maybe.Ctor` to create a `Maybe` instance so we can check if they are `Maybe` with `obj instanceof Maybe.Ctor`, then we attach the methods to its prototype. Now only one `Nothing` instance exist: `Maybe(undefined) === Maybe(null)`. As a bonus the `new` keyword is no longer needed when calling `Maybe.Just()`.
 
 Information hiding
 ------------------
 
-One problem with the last implementation is that the user code can access and manipulate directly to `maybe.val`. We could freeze the object to prevent the user from modify the reference, but  the value would still be visible. This means the user code could rely on a tight coupling with this `val` property and functions like `JSON.stringify` can show the private state of a `Maybe`.
+One problem with the latest implementation is that the user code can access and manipulate directly `maybe.val`. We could freeze the object to prevent the user from modify the reference, but the value would still be visible. This means the user code could rely on a tight coupling with `val` property and functions like `JSON.stringify` can expose the private state of a `Maybe`.
 
 Besides, the point of the whole library is avoid to write code like `obj.prop == null`, so I think it's crucial to prevent direct access to the wrapped value.
 
 ```javascript
-// assuming only `Maybe` will be exposed
+// Assuming only `Maybe` will be exposed
 // we can keep the constructor private
-// since there user code should not
-// mess with this.
+// since the user code shouldn't hack this.
 function Ctor () {}
 
 function Maybe (val) {
@@ -191,7 +191,7 @@ function Maybe (val) {
 Maybe.Just = function (val) {
   var self = new Ctor()
 
-  // since `val` reference is now private
+  // Since `val` reference is now private
   // and cannot be changed `empty` property
   // is a constant.
   // A `Just` cannot become a `Nothing` at
@@ -245,7 +245,7 @@ To sum up the main design decisions:
 
     I tried to follow functional paradigm as much as possible. Once an object is created it will be never modified by the library, instead new `Maybe` are created when needed.
 
-    The wrapped value, anyway, is not side effect free: `filter`, `map` and `forEach` will apply a function on that value, you should use pure functions as much as possible in order to obtain a stateless monad
+    The wrapped value, anyway, is not side effect free: `filter`, `map` and `forEach` will apply a function on that value, you should use pure functions as much as possible in order to obtain stateless monads.
 
 - Syntax
 
