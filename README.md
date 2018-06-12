@@ -2,15 +2,7 @@
 
 This is a porting of the [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad), or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
 
-There are a bunch of maybe-js libraries, all very similar to each other, so here's why I wrote this one:
-
-1. Stateless: I tried to follow functional paradigm as much as possible. Once an object is created it will be never modified by the library, instead new `maybe`s are created when needed. The wrapped value, anyway, is not side effect free: `filter`, `map` and `forEach` will apply a function on that value, but if you use functions without side effects in this context you'll get real stateless monads!
-
-2. Syntax: with least surprise principle in mind I tried to use a well established syntax, similar to Scala's [Option](https://www.scala-lang.org/api/current/scala/Option.html) type. `filter`, `map` and `forEach` should sound and look familiar, and I think this really improves code readability.
-
-3. Simplicity: no fancy functions that would require crazy tests or updates, the code is trivial, anyone can read and modify as needed.
-
-4. Robustness: I'm trying to test as much as possible. Beside that no `this` or `new` were harmed in the writing of this library. `maybe('hello')`, `maybe.call({}, 'hello')` and `maybe.apply(null, [ 'hello' ])` will just produce the same result. Isn't it cool?
+There are a bunch of maybe-js libraries, all very similar to each other, so here's [why I wrote this one](DESIGN.md).
 
 ## Installation
 
@@ -182,7 +174,7 @@ function updateMetaDescription (desc) {
 
 - [Cache function result](https://gist.github.com/emilianobovetti/9245d6b0c3dc03461446fadc6a3c75da)
 
-- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/aed9f8f7b75111244407f1c9cd342707ed989371/assets/js/main.js#L151)
+- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/8bf6eed1e8d43983fd1094c08e0284aab50b29ab/assets/js/main.js#L151)
 
 ## Maybe object properties
 
