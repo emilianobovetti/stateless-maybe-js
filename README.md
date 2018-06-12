@@ -49,7 +49,6 @@ var m = maybe('hello, world')
 // just returns itself
 m === maybe(m) // true
 ```
-The `maybe` function takes a second optional argument, but I never used this feature and I'm planning to remove it in a future release.
 
 If the emptiness definition isn't trivial (i.e. `null` or `undefined`), you can use `maybe.nothing` and `maybe.just()`. E.g.:
 
@@ -215,6 +214,3 @@ Acts like `getOrElse`, but returns an maybe instead of its value.
 
 ### `maybe.toString()`
 Returns the value casted to string if the maybe is non-empty, an empty string otherwise.
-
-### `maybe.type` - deprecated
-Contains the string `'maybe'`.
