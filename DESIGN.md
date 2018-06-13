@@ -18,13 +18,13 @@ Leaving aside for the moment that we cannot define a type constructor or enforce
 
 ```javascript
 function unit (v) {
-  return { val: v }
+  return { val: v };
 }
 
 function bind (maybe, fn) {
   // Note that val == null means
   // val === undefined || val === null
-  return (maybe || {}).val == null ? {} : fn(maybe.val)
+  return (maybe || {}).val == null ? {} : fn(maybe.val);
 }
 ```
 
@@ -32,14 +32,14 @@ Now we could use these functions instead of dealing with `null` or `undefined`:
 
 ```javascript
 function inc (x) {
-  return unit(x + 1)
+  return unit(x + 1);
 }
 
-var j1 = unit(1)
-var j2 = bind(j1, inc) // Just(2)
+var j1 = unit(1);
+var j2 = bind(j1, inc); // Just(2)
 
-var n1 = null
-var n2 = bind(n1, inc) // Nothing
+var n1 = null;
+var n2 = bind(n1, inc); // Nothing
 ```
 
 I think the three major problems with this approach are:
@@ -75,36 +75,36 @@ Consider the following code:
 // Façade function, basically an helper to call
 // `new Maybe.Nothing()` or `new Maybe.Just()`.
 function Maybe (val) {
-  return val == null ? new Maybe.Nothing() : new Maybe.Just(val)
+  return val == null ? new Maybe.Nothing() : new Maybe.Just(val);
 }
 
 Maybe.Just = function (val) {
-  this.val = val
-}
+  this.val = val;
+};
 
 Maybe.Just.prototype.bind = function (fn) {
-  return fn(this.val)
-}
+  return fn(this.val);
+};
 
-Maybe.Nothing = function () {}
+Maybe.Nothing = function () {};
 
 Maybe.Nothing.prototype.bind = function () {
-  return this
-}
+  return this;
+};
 ```
 
 Like before let's see this code in action:
 
 ```javascript
 function inc (x) {
-  return Maybe(x + 1)
+  return Maybe(x + 1);
 }
 
-var j1 = Maybe(1) // Just(1)
-var j2 = j1.bind(inc) // Just(2)
+var j1 = Maybe(1); // Just(1)
+var j2 = j1.bind(inc); // Just(2)
 
-var n1 = Maybe(null) // Nothing
-var n2 = n1.bind(inc) // Nothing
+var n1 = Maybe(null); // Nothing
+var n2 = n1.bind(inc); // Nothing
 ```
 
 With object orientation we solved two big problems, not everything is a monad and chaining `bind` is okay: `Maybe(1).bind(inc).bind(inc)`.
@@ -121,24 +121,24 @@ To make clear that the behaviour of this method is different from the `bind` fun
 // Now we check if `val` is already a `Maybe`
 // so this function won't create nested `Maybe`.
 function Maybe (val) {
-  if (val instanceof Maybe.Just) return val
-  if (val instanceof Maybe.Nothing) return val
-  return val == null ? new Maybe.Nothing() : new Maybe.Just(val)
+  if (val instanceof Maybe.Just) return val;
+  if (val instanceof Maybe.Nothing) return val;
+  return val == null ? new Maybe.Nothing() : new Maybe.Just(val);
 }
 
 Maybe.Just = function (val) {
-  this.val = val
-}
+  this.val = val;
+};
 
 Maybe.Just.prototype.map = function (fn) {
-  return Maybe(fn(this.val))
-}
+  return Maybe(fn(this.val));
+};
 
-Maybe.Nothing = function () {}
+Maybe.Nothing = function () {};
 
 Maybe.Nothing.prototype.map = function () {
-  return this
-}
+  return this;
+};
 ```
 
 The library guarantees us that `aMaybe.map(fn)` and I think this is a great feature because we can look at that expression without knowing anything about `fn` and tell that expression is still a `Maybe`.
@@ -147,25 +147,25 @@ Anyway to create a `new Maybe.Nothing()` every time a `Nothing` instance is need
 
 ```javascript
 function Maybe (val) {
-  if (val instanceof Maybe.Ctor) return val
-  return val == null ? Maybe.Nothing : Maybe.Just(val)
+  if (val instanceof Maybe.Ctor) return val;
+  return val == null ? Maybe.Nothing : Maybe.Just(val);
 }
 
-Maybe.Ctor = function () {}
+Maybe.Ctor = function () {};
 
 Maybe.Just = function (val) {
-  var self = new Maybe.Ctor()
+  var self = new Maybe.Ctor();
 
-  self.val = val
+  self.val = val;
 
-  return self
-}
+  return self;
+};
 
-Maybe.Nothing = new Maybe.Ctor()
+Maybe.Nothing = new Maybe.Ctor();
 
 Maybe.Ctor.prototype.map = function (fn) {
-  return this.val == null ? Maybe.Nothing : Maybe(fn(this.val))
-}
+  return this.val == null ? Maybe.Nothing : Maybe(fn(this.val));
+};
 ```
 
 We use `Maybe.Ctor` to create a `Maybe` instance so we can check if they are `Maybe` with `obj instanceof Maybe.Ctor`, then we attach the methods to its prototype. Now only one `Nothing` instance exist: `Maybe(undefined) === Maybe(null)`. As a bonus the `new` keyword is no longer needed when calling `Maybe.Just()`.
@@ -184,54 +184,54 @@ Besides, the point of the whole library is avoid to write code like `obj.prop ==
 function Ctor () {}
 
 function Maybe (val) {
-  if (val instanceof Ctor) return val
-  return val == null ? Maybe.Nothing : Maybe.Just(val)
+  if (val instanceof Ctor) return val;
+  return val == null ? Maybe.Nothing : Maybe.Just(val);
 }
 
 Maybe.Just = function (val) {
-  var self = new Ctor()
+  var self = new Ctor();
 
   // Since `val` reference is now private
   // and cannot be changed `empty` property
   // is a constant.
   // A `Just` cannot become a `Nothing` at
   // at some point!
-  self.empty = false
+  self.empty = false;
 
   // Negation of `empty`.
-  self.nonEmpty = true
+  self.nonEmpty = true;
 
   // `val` is now so private that
   // even `map` method must call
   // `get` to access it.
   self.get = function () {
-    return val
-  }
+    return val;
+  };
 
-  return self
-}
+  return self;
+};
 
 Maybe.Nothing = (function () {
-  var self = new Ctor()
+  var self = new Ctor();
 
-  self.empty = true
+  self.empty = true;
 
-  self.nonEmpty = false
+  self.nonEmpty = false;
 
   // `Maybe.Nothing.get()` will always result
   // in an exception.
   // By definition a `Nothing` hasn't a value,
   // so this method cannot return something.
   self.get = function () {
-    throw new Error('Maybe.Nothing.get()')
-  }
+    throw new Error('Maybe.Nothing.get()');
+  };
 
   return self
-})()
+})();
 
 Ctor.prototype.map = function (fn) {
-  return this.empty ? Maybe.Nothing : Maybe(fn(this.get()))
-}
+  return this.empty ? Maybe.Nothing : Maybe(fn(this.get()));
+};
 ```
 
 To make more clear that `Maybe()`, and `Maybe.Just()` don't need `new` I decided to lowercase their names.

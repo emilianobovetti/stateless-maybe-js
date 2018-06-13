@@ -18,42 +18,42 @@
 
 /* global describe, it */
 
-const maybe = require('../src/maybe')
-const assert = require('assert')
+const maybe = require('../src/maybe');
+const assert = require('assert');
 
-const nothing = maybe.nothing
-const justZero = maybe.just(0)
+const nothing = maybe.nothing;
+const justZero = maybe.just(0);
 
 describe('maybe.nothing', () => {
   describe('#map(x => x)', () => {
     it('should be equal to maybe.nothing', () => {
-      assert.equal(nothing, nothing.map(x => x))
-    })
-  })
+      assert.equal(nothing, nothing.map(x => x));
+    });
+  });
 
   describe('#map(x => maybe(x))', () => {
     it('should be equal to maybe.nothing', () => {
-      assert.equal(nothing, nothing.map(x => maybe(x)))
-    })
-  })
-})
+      assert.equal(nothing, nothing.map(x => maybe(x)));
+    });
+  });
+});
 
 describe('maybe.just(0)', () => {
   describe('#map(x => x)', () => {
     it('should contain 0', () => {
-      assert.equal(0, justZero.map(x => x).get())
-    })
-  })
+      assert.equal(0, justZero.map(x => x).get());
+    });
+  });
 
   describe('#map(x => maybe(x))', () => {
     it('should contain 0', () => {
-      assert.equal(0, justZero.map(x => maybe(x)).get())
-    })
-  })
+      assert.equal(0, justZero.map(x => maybe(x)).get());
+    });
+  });
 
   describe('#map(x => x + 1)', () => {
     it('should contain 1', () => {
-      assert.equal(1, justZero.map(x => x + 1).get())
-    })
-  })
-})
+      assert.equal(1, justZero.map(x => x + 1).get());
+    });
+  });
+});

@@ -11,8 +11,7 @@
   ],
   "main": "src/maybe.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
-    "standard": "./node_modules/.bin/standard"
+    "test": "./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -22,7 +21,6 @@
     "url": "https://github.com/emilianobovetti/stateless-maybe-js/issues"
   },
   "devDependencies": {
-    "standard": "*",
     "mocha": "^5.0.0",
     "uglify-js": "^3.3.9"
   }

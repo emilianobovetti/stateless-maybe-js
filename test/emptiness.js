@@ -18,33 +18,33 @@
 
 /* global describe, it */
 
-const maybe = require('../src/maybe')
-const assert = require('assert')
+const maybe = require('../src/maybe');
+const assert = require('assert');
 
 describe('maybe.just(0)', () => {
   describe('#empty', () => {
     it('should be false', () => {
-      assert.equal(false, maybe.just(0).empty)
-    })
-  })
+      assert.equal(false, maybe.just(0).empty);
+    });
+  });
 
   describe('#nonEmpty', () => {
     it('should be true', () => {
-      assert.equal(true, maybe.just(0).nonEmpty)
-    })
-  })
-})
+      assert.equal(true, maybe.just(0).nonEmpty);
+    });
+  });
+});
 
 describe('maybe.nothing', () => {
   describe('#empty', () => {
     it('should be true', () => {
-      assert.equal(true, maybe.nothing.empty)
-    })
-  })
+      assert.equal(true, maybe.nothing.empty);
+    });
+  });
 
   describe('#nonEmpty', () => {
     it('should be false', () => {
-      assert.equal(false, maybe.nothing.nonEmpty)
-    })
-  })
-})
+      assert.equal(false, maybe.nothing.nonEmpty);
+    });
+  });
+});

@@ -21,130 +21,130 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define([], factory)
+    define([], factory);
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory()
+    module.exports = factory();
   } else {
     // Browser globals (root is window)
-    root.maybe = factory()
+    root.maybe = factory();
   }
 }(this, function () {
-  'use strict'
+  'use strict';
 
   var freeze = Object.freeze || function (object) {
-    return object
-  }
+    return object;
+  };
 
   function Ctor () {}
 
   function maybe (value) {
     if (value == null) {
       // null or undefined
-      return maybe.nothing
+      return maybe.nothing;
     } else if (value instanceof Ctor) {
       // value is already a maybe
-      return value
+      return value;
     } else {
-      return maybe.just(value)
+      return maybe.just(value);
     }
   }
 
   maybe.string = function (value) {
     if (typeof value !== 'string' || value === '') {
-      return maybe.nothing
+      return maybe.nothing;
     } else {
-      return maybe.just(value)
+      return maybe.just(value);
     }
-  }
+  };
 
   maybe.number = function (value) {
     if (typeof value !== 'number') {
-      return maybe.nothing
+      return maybe.nothing;
     } else {
-      return maybe.just(value)
+      return maybe.just(value);
     }
-  }
+  };
 
   maybe.object = function (value) {
     if (typeof value !== 'object') {
-      return maybe.nothing
+      return maybe.nothing;
     } else {
-      return maybe(value)
+      return maybe(value);
     }
-  }
+  };
 
   Ctor.prototype = freeze({
     filter: function (fn) {
       return this.empty
         ? this
-        : fn(this.get()) ? this : maybe.nothing
+        : fn(this.get()) ? this : maybe.nothing;
     },
 
     map: function (fn) {
       return this.empty
         ? this
-        : maybe(fn(this.get()))
+        : maybe(fn(this.get()));
     },
 
     forEach: function (fn) {
-      if (this.nonEmpty) fn(this.get())
+      if (this.nonEmpty) fn(this.get());
 
-      return this
+      return this;
     },
 
     orElse: function (orElse) {
       return this.nonEmpty
         ? this
-        : maybe(this.getOrElse(orElse))
+        : maybe(this.getOrElse(orElse));
     },
 
     getOrElse: function (orElse) {
       return this.nonEmpty
         ? this.get()
-        : typeof orElse === 'function' ? orElse() : orElse
+        : typeof orElse === 'function' ? orElse() : orElse;
     },
 
     getOrThrow: function (e) {
-      if (this.nonEmpty) return this.get()
+      if (this.nonEmpty) return this.get();
 
-      throw e || new Error('Trying to get value of Nothing')
+      throw e || new Error('Trying to get value of Nothing');
     },
 
     toString: function () {
-      return this.empty ? '' : String(this.get())
+      return this.empty ? '' : String(this.get());
     }
-  })
+  });
 
   maybe.just = function (value) {
-    var self = new Ctor()
+    var self = new Ctor();
 
-    self.empty = false
+    self.empty = false;
 
-    self.nonEmpty = true
+    self.nonEmpty = true;
 
     self.get = function () {
-      return value
-    }
+      return value;
+    };
 
-    return freeze(self)
-  }
+    return freeze(self);
+  };
 
   maybe.nothing = (function () {
-    var self = new Ctor()
+    var self = new Ctor();
 
-    self.empty = true
+    self.empty = true;
 
-    self.nonEmpty = false
+    self.nonEmpty = false;
 
     self.get = function () {
-      self.getOrThrow()
-    }
+      self.getOrThrow();
+    };
 
-    return freeze(self)
-  })()
+    return freeze(self);
+  })();
 
-  return freeze(maybe)
-}))
+  return freeze(maybe);
+}));

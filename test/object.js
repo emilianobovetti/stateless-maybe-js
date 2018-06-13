@@ -18,65 +18,65 @@
 
 /* global describe, it */
 
-const maybe = require('../src/maybe')
-const assert = require('assert')
+const maybe = require('../src/maybe');
+const assert = require('assert');
 
-const nothing = maybe.nothing
+const nothing = maybe.nothing;
 
 describe('maybe', () => {
   describe('#object(undefined)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(undefined), nothing)
-    })
-  })
+      assert.equal(maybe.object(undefined), nothing);
+    });
+  });
 
   describe('#object(null)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(null), nothing)
-    })
-  })
+      assert.equal(maybe.object(null), nothing);
+    });
+  });
 
   describe('#object(true)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(true), nothing)
-    })
-  })
+      assert.equal(maybe.object(true), nothing);
+    });
+  });
 
   describe('#object(false)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(false), nothing)
-    })
-  })
+      assert.equal(maybe.object(false), nothing);
+    });
+  });
 
   describe('#object(0)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(0), nothing)
-    })
-  })
+      assert.equal(maybe.object(0), nothing);
+    });
+  });
 
   describe('#object(Symbol())', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(Symbol('description')), nothing)
-    })
-  })
+      assert.equal(maybe.object(Symbol('description')), nothing);
+    });
+  });
 
   describe('#object(() => 0)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(() => 0), nothing)
-    })
-  })
+      assert.equal(maybe.object(() => 0), nothing);
+    });
+  });
 
   describe('#object("")', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.object(''), nothing)
-    })
-  })
+      assert.equal(maybe.object(''), nothing);
+    });
+  });
 
   describe('#object({})', () => {
     it('should be maybe.just({})', () => {
-      var obj = {}
+      var obj = {};
 
-      assert.equal(maybe.object(obj).get(), obj)
-    })
-  })
-})
+      assert.equal(maybe.object(obj).get(), obj);
+    });
+  });
+});

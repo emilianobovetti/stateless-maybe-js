@@ -18,36 +18,36 @@
 
 /* global describe, it */
 
-const maybe = require('../src/maybe')
-const assert = require('assert')
+const maybe = require('../src/maybe');
+const assert = require('assert');
 
-const nothing = maybe.nothing
-const justZero = maybe.just(0)
+const nothing = maybe.nothing;
+const justZero = maybe.just(0);
 
 describe('maybe.nothing', () => {
   describe('#orElse(0)', () => {
     it('should be a maybe.just(0)', () => {
-      assert.equal(0, nothing.orElse(0).get())
-    })
-  })
+      assert.equal(0, nothing.orElse(0).get());
+    });
+  });
 
   describe('#orElse(() => 0)', () => {
     it('should be a maybe.just(0)', () => {
-      assert.equal(0, nothing.orElse(() => 0).get())
-    })
-  })
-})
+      assert.equal(0, nothing.orElse(() => 0).get());
+    });
+  });
+});
 
 describe('maybe.just(0)', () => {
   describe('#orElse(1)', () => {
     it('should be equal to itself', () => {
-      assert.equal(justZero, justZero.orElse(1))
-    })
-  })
+      assert.equal(justZero, justZero.orElse(1));
+    });
+  });
 
   describe('#orElse(() => 1)', () => {
     it('should be equal to itself', () => {
-      assert.equal(justZero, justZero.orElse(() => 1))
-    })
-  })
-})
+      assert.equal(justZero, justZero.orElse(() => 1));
+    });
+  });
+});

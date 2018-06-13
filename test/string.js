@@ -18,69 +18,69 @@
 
 /* global describe, it */
 
-const maybe = require('../src/maybe')
-const assert = require('assert')
+const maybe = require('../src/maybe');
+const assert = require('assert');
 
-const nothing = maybe.nothing
+const nothing = maybe.nothing;
 
 describe('maybe', () => {
   describe('#string(undefined)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(undefined), nothing)
-    })
-  })
+      assert.equal(maybe.string(undefined), nothing);
+    });
+  });
 
   describe('#string(null)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(null), nothing)
-    })
-  })
+      assert.equal(maybe.string(null), nothing);
+    });
+  });
 
   describe('#string(true)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(true), nothing)
-    })
-  })
+      assert.equal(maybe.string(true), nothing);
+    });
+  });
 
   describe('#string(false)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(false), nothing)
-    })
-  })
+      assert.equal(maybe.string(false), nothing);
+    });
+  });
 
   describe('#string(0)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(0), nothing)
-    })
-  })
+      assert.equal(maybe.string(0), nothing);
+    });
+  });
 
   describe('#string(Symbol())', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(Symbol('description')), nothing)
-    })
-  })
+      assert.equal(maybe.string(Symbol('description')), nothing);
+    });
+  });
 
   describe('#string(() => 0)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(() => 0), nothing)
-    })
-  })
+      assert.equal(maybe.string(() => 0), nothing);
+    });
+  });
 
   describe('#string({})', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string({}), nothing)
-    })
-  })
+      assert.equal(maybe.string({}), nothing);
+    });
+  });
 
   describe('#string("")', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.string(''), nothing)
-    })
-  })
+      assert.equal(maybe.string(''), nothing);
+    });
+  });
 
   describe('#string("hello")', () => {
     it('should be maybe.just("hello")', () => {
-      assert.equal(maybe.string('hello').get(), 'hello')
-    })
-  })
-})
+      assert.equal(maybe.string('hello').get(), 'hello');
+    });
+  });
+});

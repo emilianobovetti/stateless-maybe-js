@@ -1,4 +1,4 @@
-# stateless-maybe-js [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+# stateless-maybe-js [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js)
 
 This is a porting of the [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad), or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
 
@@ -19,7 +19,7 @@ For browser installation all you need is to include the script:
 or require in node:
 
 ```javascript
-const maybe = require('stateless-maybe-js')
+const maybe = require('stateless-maybe-js');
 ```
 
 ## Build
@@ -31,23 +31,23 @@ A Makefile will call yarn for you and then uglifyjs to produce `./dist/maybe.min
 `maybe(someValue)` creates a new `Maybe` object wrapping `someValue`. A `Nothing` is returned if the value is `null` or `undefined`. E.g.:
 
 ```javascript
-var m1 = maybe('hello, world')
-var m2 = maybe(undefined)
-var m3 = maybe(null)
+var m1 = maybe('hello, world');
+var m2 = maybe(undefined);
+var m3 = maybe(null);
 
-m1.empty // false
-m2.empty // true
-m3.empty // true
+m1.empty; // false
+m2.empty; // true
+m3.empty; // true
 ```
 
 `Maybe` objects aren't nested by constructor function.
 
 ```javascript
-var m = maybe('hello, world')
+var m = maybe('hello, world');
 
 // when maybe() receives a maybe monad
 // just returns itself
-m === maybe(m) // true
+m === maybe(m); // true
 ```
 
 If the emptiness definition isn't trivial (i.e. `null` or `undefined`), you can use `maybe.nothing` and `maybe.just()`. E.g.:
@@ -55,29 +55,29 @@ If the emptiness definition isn't trivial (i.e. `null` or `undefined`), you can 
 ```javascript
 function maybeYoungPeople (people, maxAge, atLeast) {
   var areYoung = people
-    .reduce((acc, p) => acc && p.age <= maxAge, true)
+    .reduce((acc, p) => acc && p.age <= maxAge, true);
 
   if (people.length >= atLeast && areYoung) {
-    return maybe.just(people)
+    return maybe.just(people);
   } else {
-    return maybe.nothing
+    return maybe.nothing;
   }
 }
 
-var people = [ { age: 10 }, { age: 15 } ]
+var people = [ { age: 10 }, { age: 15 } ];
 
-maybeYoungPeople(people, 16, 2).empty // false
-maybeYoungPeople(people, 14, 2).empty // true
-maybeYoungPeople(people, 16, 3).empty // true
+maybeYoungPeople(people, 16, 2).empty; // false
+maybeYoungPeople(people, 14, 2).empty; // true
+maybeYoungPeople(people, 16, 3).empty; // true
 ```
 
 Note that `maybe.just()`, unlike `maybe()`, doesn't make any emptiness check. A `Just` instance is always created.
 
 ```javascript
-var m = maybe.just(null)
+var m = maybe.just(null);
 
-m.empty // false
-m.get() // null
+m.empty; // false
+m.get(); // null
 ```
 
 ## Type specific constructors
@@ -97,7 +97,7 @@ Checks if `typeof value` is `object` and it's not `null`.
 function maybeGetUser (id) {
   // ...
 
-  return maybe(user)
+  return maybe(user);
 }
 
 // get user's date of birth or 'unknown'
@@ -105,36 +105,36 @@ function maybeGetUser (id) {
 // doesn't exist, is null or undefined
 maybeGetUser(id)
   .map(user => user.dateOfBirth)
-  .getOrElse('unknown')
+  .getOrElse('unknown');
 ```
 
 You can use the `maybe()` function to wrap a lot of useful objects. E.g.:
 
 ```javascript
 function maybeGetElementById (id) {
-  return maybe(document.getElementById(id))
+  return maybe(document.getElementById(id));
 }
 
 // remove an element if exist
 maybeGetElementById('some-id')
-  .forEach(element => element.remove())
+  .forEach(element => element.remove());
 
 // get header's height or 0
 maybeGetElementById('header-id')
   .map(header => header.offsetHeight)
-  .getOrElse(0)
+  .getOrElse(0);
 
 // execute a function if an element exist
 // or another function if it doesn't
 maybeGetElementById('some-other-id')
   .forEach(e => console.log('element found!'))
-  .orElse(() => console.log('element not found'))
+  .orElse(() => console.log('element not found'));
 
 // maybe.toString() returns an empty string
 // on nothing
 maybeGetElementById('some-node')
   .map(e => e.innerText)
-  .toString()
+  .toString();
 ```
 
 Dealing with many `Maybe`s seems hard at first and nesting functions might seem the only way to go. In this case `filter` could be a good option.
@@ -143,10 +143,10 @@ For example we could write a function to update meta description only if the met
 ```javascript
 // plain javascript
 function updateMetaDescription (desc) {
-  var metaDescription = document.getElementById('meta-description')
+  var metaDescription = document.getElementById('meta-description');
 
   if (metaDescription !== null && typeof desc === 'string' && desc !== '') {
-    metaDescription.setAttribute('content', desc)
+    metaDescription.setAttribute('content', desc);
   }
 }
 
@@ -156,16 +156,16 @@ function updateMetaDescription (desc) {
     .forEach(function (element) {
       maybe.string(desc).forEach(function () {
         // okay, this is worse
-        element.setAttribute('content', desc)
-      })
-    })
+        element.setAttribute('content', desc);
+      });
+    });
 }
 
 // using maybe.filter
 function updateMetaDescription (desc) {
   maybe(document.getElementById('meta-description'))
     .filter(() => maybe.string(desc).nonEmpty)
-    .forEach(el => el.setAttribute('content', desc))
+    .forEach(el => el.setAttribute('content', desc));
 }
 ```
 

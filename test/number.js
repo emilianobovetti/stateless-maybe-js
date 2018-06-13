@@ -18,63 +18,63 @@
 
 /* global describe, it */
 
-const maybe = require('../src/maybe')
-const assert = require('assert')
+const maybe = require('../src/maybe');
+const assert = require('assert');
 
-const nothing = maybe.nothing
+const nothing = maybe.nothing;
 
 describe('maybe', () => {
   describe('#number(undefined)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number(undefined), nothing)
-    })
-  })
+      assert.equal(maybe.number(undefined), nothing);
+    });
+  });
 
   describe('#number(null)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number(null), nothing)
-    })
-  })
+      assert.equal(maybe.number(null), nothing);
+    });
+  });
 
   describe('#number(true)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number(true), nothing)
-    })
-  })
+      assert.equal(maybe.number(true), nothing);
+    });
+  });
 
   describe('#number(false)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number(false), nothing)
-    })
-  })
+      assert.equal(maybe.number(false), nothing);
+    });
+  });
 
   describe('#number(Symbol())', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number(Symbol('description')), nothing)
-    })
-  })
+      assert.equal(maybe.number(Symbol('description')), nothing);
+    });
+  });
 
   describe('#number(() => 0)', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number(() => 0), nothing)
-    })
-  })
+      assert.equal(maybe.number(() => 0), nothing);
+    });
+  });
 
   describe('#number({})', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number({}), nothing)
-    })
-  })
+      assert.equal(maybe.number({}), nothing);
+    });
+  });
 
   describe('#number("")', () => {
     it('should be nothing', () => {
-      assert.equal(maybe.number(''), nothing)
-    })
-  })
+      assert.equal(maybe.number(''), nothing);
+    });
+  });
 
   describe('#number(0)', () => {
     it('should be maybe.just(0)', () => {
-      assert.equal(maybe.number(0).get(), 0)
-    })
-  })
-})
+      assert.equal(maybe.number(0).get(), 0);
+    });
+  });
+});
