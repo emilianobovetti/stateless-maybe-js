@@ -251,8 +251,6 @@ To sum up the main design decisions:
 
     With least surprise principle in mind I tried to use a well established syntax, similar to Scala's [Option](https://www.scala-lang.org/api/current/scala/Option.html) type. `filter`, `map` and `forEach` should sound and look familiar, and I think this really improves code readability.
 
-    Besides, it's no coincidence the methods name match to those of an array, the idea is to use a "collection interface", since a `Maybe` can be seen as a collection.
-
 - Portability
 
     This code could work nearly anywhere, natively. I mean it. I just tried with IE6 on Wine.
