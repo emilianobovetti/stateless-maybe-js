@@ -113,7 +113,7 @@ Since we cannot enforce the type of `fn` in `bind` we have to check at runtime i
 
 We can write another version of the `Maybe()` function that creates a new `Maybe` only if its arguments isn't already a `Maybe` instance.
 
-If we pass the output of `fn(this.val)` to `Maybe()` function in `bind` method, we can make sure its output is always a `Maybe` and it's not nested (a `Maybe` inside another `Maybe`).
+If we pass the output of `fn(this.val)` to this `Maybe()` function in `bind` method, we can make sure its output is *always* a `Maybe` and it's not nested (a `Maybe` inside another `Maybe`).
 
 To make clear that the behaviour of this method is different from the `bind` function we'll change its name to `map`.
 
@@ -141,7 +141,7 @@ Maybe.Nothing.prototype.map = function () {
 };
 ```
 
-The library guarantees us that `aMaybe.map(fn)` and I think this is a great feature because we can look at that expression without knowing anything about `fn` and tell that expression is still a `Maybe`.
+The library guarantees us that the value of an expression like `aMaybe.map(fn)` is a `Maybe` regardless of what `fn` returns. We can look at that expression without knowing anything about `fn` and tell it's still a `Maybe`.
 
 Anyway to create a `new Maybe.Nothing()` every time a `Nothing` instance is needed is a waste. Performance isn't one of the design goals, but there is no point in create a lot of identical object.
 
