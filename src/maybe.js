@@ -40,17 +40,21 @@
 
   function Ctor () {}
 
-  function maybe (value) {
-    if (value == null) {
-      // null or undefined
-      return maybe.nothing;
-    } else if (value instanceof Ctor) {
-      // value is already a maybe
-      return value;
-    } else {
-      return maybe.just(value);
-    }
+  function facade (value) {
+    return value == null
+      ? maybe.nothing
+      : value instanceof Ctor
+      ? value
+      : maybe.just(value);
   }
+
+  function maybe (value) {
+    return facade(value);
+  }
+
+  maybe.from = maybe.default = function (value) {
+    return facade(value);
+  };
 
   maybe.string = function (value) {
     if (typeof value !== 'string' || value === '') {
@@ -146,5 +150,5 @@
     return freeze(self);
   })();
 
-  return freeze(maybe);
+  return maybe;
 }));

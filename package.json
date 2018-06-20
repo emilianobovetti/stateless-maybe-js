@@ -1,15 +1,18 @@
 {
   "name": "stateless-maybe-js",
   "description": "A stateless implementation of the maybe monad",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "author": "Emiliano Bovetti",
   "license": "GPL-3.0",
   "keywords": [
-    "maybe",
-    "option",
-    "monad"
+    "maybe", "option", "monad",
+    "optional", "nullable",
+    "null", "undefined",
+    "functional", "fp",
+    "typescript"
   ],
   "main": "src/maybe.js",
+  "types": "src/maybe.d.ts",
   "scripts": {
     "test": "./node_modules/.bin/mocha"
   },

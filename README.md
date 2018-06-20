@@ -1,6 +1,6 @@
-# stateless-maybe-js [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js)
+# stateless-maybe-js [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js) ![TypeScript](https://img.shields.io/badge/%3C/%3E-TypeScript-blue.svg)
 
-This is a porting of the [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad), or [option type](https://en.wikipedia.org/wiki/Option_type), in JavaScript.
+Portable, lightweight, zero-dependency implementation of [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad) --- or [option type](https://en.wikipedia.org/wiki/Option_type) --- in vanilla JavaScript.
 
 There are a bunch of maybe-js libraries, all very similar to each other, so here's [why I wrote this one](DESIGN.md).
 
@@ -12,7 +12,7 @@ $ npm install stateless-maybe-js
 
 For browser installation all you need is to include the script:
 
-```HTML
+```html
 <script type="text/javascript" src="path/to/dist/maybe.min.js"></script>
 ```
 
@@ -214,3 +214,27 @@ Acts like `getOrElse`, but returns an maybe instead of its value.
 
 ### `maybe.toString()`
 Returns the value casted to string if the maybe is non-empty, an empty string otherwise.
+
+## TypeScript
+
+Since `2.1.0` TypeScript can also be used:
+
+```ts
+import * as maybe from 'stateless-maybe-js';
+
+// Optionally import `Maybe` interface for type annotation
+import { Maybe } from 'stateless-maybe-js';
+
+// Instead of `maybe()` use `maybe.from()`.
+let maybeStr: Maybe<string> = maybe.from('1');
+
+maybeStr = maybeStr.filter(str => str.trim() !== '');
+
+function parseNum(str: string): Maybe<number> {
+    const parsed = parseFloat(str);
+
+    return isNaN(parsed) ? maybe.nothing : maybe.just(parsed);
+}
+
+let maybeNum: Maybe<number> = maybeStr.map(parseNum).forEach(console.log);
+```
