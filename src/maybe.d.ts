@@ -2,6 +2,8 @@
 // Project: https://github.com/emilianobovetti/stateless-maybe-js
 // Definitions by: Emiliano Bovetti <https://github.com/emilianobovetti>
 
+export as namespace maybe;
+
 export interface Maybe<T> {
     empty: boolean;
 

@@ -1,6 +1,9 @@
-# stateless-maybe-js [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js) ![TypeScript](https://img.shields.io/badge/%3C/%3E-TypeScript-blue.svg)
+# stateless-maybe-js
 
-Portable, lightweight, zero-dependency implementation of [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad) --- or [option type](https://en.wikipedia.org/wiki/Option_type) --- in vanilla JavaScript.
+[![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js)
+![TypeScript](https://img.shields.io/badge/TypeScript-.d.ts-blue.svg)
+
+Portable, lightweight, zero-dependency implementation of [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad) — or [option type](https://en.wikipedia.org/wiki/Option_type) — in vanilla JavaScript.
 
 There are a bunch of maybe-js libraries, all very similar to each other, so here's [why I wrote this one](DESIGN.md).
 
