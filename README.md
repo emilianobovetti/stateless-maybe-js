@@ -220,15 +220,15 @@ Returns the value casted to string if the maybe is non-empty, an empty string ot
 
 ## TypeScript
 
-Since `2.1.0` TypeScript can also be used:
+Since `2.1.0` TypeScript is also supported:
 
 ```ts
 import * as maybe from 'stateless-maybe-js';
 
-// Optionally import `Maybe` interface for type annotation
+// Optionally import `Maybe` interface for type annotations
 import { Maybe } from 'stateless-maybe-js';
 
-// Instead of `maybe()` use `maybe.from()`.
+// Instead of `maybe()` we can use `maybe.from()`.
 let maybeStr: Maybe<string> = maybe.from('1');
 
 maybeStr = maybeStr.filter(str => str.trim() !== '');

@@ -29,10 +29,18 @@ export interface Maybe<T> {
     toString(): string;
 }
 
+export default function<T>(val: Maybe<T>): Maybe<T>;
 export default function<T>(val: T): Maybe<T>;
+
+export function from<T>(val: Maybe<T>): Maybe<T>;
 export function from<T>(val: T): Maybe<T>;
+
 export function string(val: any): Maybe<string>;
+
 export function number(val: any): Maybe<number>;
+
 export function object(val: any): Maybe<Object>;
+
 export function just<T>(val: T): Maybe<T>;
+
 export const nothing: Maybe<any>;
