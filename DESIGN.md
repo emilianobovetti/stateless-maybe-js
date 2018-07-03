@@ -111,7 +111,7 @@ With object orientation we solved two big problems we had, not everything is a m
 
 Since we cannot enforce the type of `fn` in `bind` we have to check at runtime if `fn(this.val)` returns a `Maybe` instance or not to deal with our third problem.
 
-```
+```javascript
 // We could use our `Maybe()` function for this purpose,
 // but now if `fn(this.val)` is already a maybe
 // the result would be a `Maybe` inside another `Maybe`.
