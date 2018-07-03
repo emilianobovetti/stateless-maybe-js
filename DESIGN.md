@@ -62,7 +62,7 @@ I think the three major problems with this approach are:
 
     `var a = bind(unit(1), x => x + 1)`
 
-    Now `a` is `2` -- not `Just(2)` -- so `bind(a, x => x + 1)` will be `Nothing`, not `3`.
+    Now `a` is `2` — not `Just(2)` — so `bind(a, x => x + 1)` will be `Nothing`, not `3`.
 
     Furthermore `bind(null, x => x + 1))` returns a `Nothing` while `bind(unit(1), x => x + 1)` returns `2`, so the `bind` function returns a `Maybe` in the first case and a `number` in the second. That's odd!
 
@@ -107,13 +107,22 @@ var n1 = Maybe(null); // Nothing
 var n2 = n1.bind(inc); // Nothing
 ```
 
-With object orientation we solved two big problems, not everything is a monad and chaining `bind` is okay: `Maybe(1).bind(inc).bind(inc)`.
+With object orientation we solved two big problems we had, not everything is a monad now and chaining `bind` is okay: `Maybe(1).bind(inc).bind(inc)`.
 
-Since we cannot enforce the type of `fn` in `bind` we have to check at runtime if `fn(this.val)` returns a `Maybe` instance or not.
+Since we cannot enforce the type of `fn` in `bind` we have to check at runtime if `fn(this.val)` returns a `Maybe` instance or not to deal with our third problem.
 
-We can write another version of the `Maybe()` function that creates a new `Maybe` only if its arguments isn't already a `Maybe` instance.
+```
+// We could use our `Maybe()` function for this purpose,
+// but now if `fn(this.val)` is already a maybe
+// the result would be a `Maybe` inside another `Maybe`.
+Maybe.Just.prototype.map = function (fn) {
+  return Maybe(fn(this.val));
+};
+```
 
-If we pass the output of `fn(this.val)` to this `Maybe()` function in `bind` method, we can make sure its output is *always* a `Maybe` and it's not nested (a `Maybe` inside another `Maybe`).
+Then we could write another version of the `Maybe()` function that creates a new `Maybe` only if its arguments isn't already a `Maybe` instance.
+
+If we pass the output of `fn(this.val)` to this `Maybe()` function, we can make sure its output is *always* a "plain" `Maybe`.
 
 To make clear that the behaviour of this method is different from the `bind` function we'll change its name to `map`.
 
@@ -141,9 +150,9 @@ Maybe.Nothing.prototype.map = function () {
 };
 ```
 
-The library guarantees us that the value of an expression like `aMaybe.map(fn)` is a `Maybe` regardless of what `fn` returns. We can look at that expression without knowing anything about `fn` and tell it's still a `Maybe`.
+This code guarantees us that the value of an expression like `aMaybe.map(fn)` is another `Maybe` regardless of what `fn` returns. We can look at that expression without knowing anything about `fn` and tell it's still a `Maybe`.
 
-Anyway to create a `new Maybe.Nothing()` every time a `Nothing` instance is needed is a waste. Performance isn't one of the design goals, but there is no point in create a lot of identical object.
+Anyway to create a `new Maybe.Nothing()` every time a `Nothing` instance is needed is a waste. Performance isn't one of the design goals, but there is no point in create a lot of identical objects.
 
 ```javascript
 function Maybe (val) {
@@ -180,7 +189,7 @@ Besides, the point of the whole library is avoid to write code like `obj.prop ==
 ```javascript
 // Assuming only `Maybe` will be exposed
 // we can keep the constructor private
-// since the user code shouldn't hack this.
+// since the user code shouldn't need it.
 function Ctor () {}
 
 function Maybe (val) {
@@ -194,15 +203,15 @@ Maybe.Just = function (val) {
   // Since `val` reference is now private
   // and cannot be changed `empty` property
   // is a constant.
-  // A `Just` cannot become a `Nothing` at
+  // A `Just` instance cannot become a `Nothing`
   // at some point!
   self.empty = false;
 
   // Negation of `empty`.
   self.nonEmpty = true;
 
-  // `val` is now so private that
-  // even `map` method must call
+  // `val` is now private.
+  // Even `map` method must call
   // `get` to access it.
   self.get = function () {
     return val;
@@ -235,29 +244,6 @@ Ctor.prototype.map = function (fn) {
 ```
 
 To make more clear that `Maybe()`, and `Maybe.Just()` don't need `new` I decided to lowercase their names.
-
-Conclusion
-----------
-
-To sum up the main design decisions:
-
-- Stateless
-
-    I tried to follow functional paradigm as much as possible. Once an object is created it will be never modified by the library, instead new `Maybe` are created when needed.
-
-    The wrapped value, anyway, is not side effect free: `filter`, `map` and `forEach` will apply a function on that value, you should use pure functions as much as possible in order to obtain stateless monads.
-
-- Syntax
-
-    With least surprise principle in mind I tried to use a well established syntax, similar to Scala's [Option](https://www.scala-lang.org/api/current/scala/Option.html) type. `filter`, `map` and `forEach` should sound and look familiar, and I think this really improves code readability.
-
-- Portability
-
-    This code could work nearly anywhere, natively. I mean it. I just tried with IE6 on Wine.
-
-- Architecture
-
-    This library is the result of a journey into the world of functional object oriented programming. I have considered many design choices and come up with this after a lot of thinking. I hope you enjoy.
 
 One word on performance
 -----------------------

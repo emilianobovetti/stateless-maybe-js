@@ -5,7 +5,54 @@
 
 Portable, lightweight, zero-dependency implementation of [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad) — or [option type](https://en.wikipedia.org/wiki/Option_type) — in vanilla JavaScript.
 
-There are a bunch of maybe-js libraries, all very similar to each other, so here's [why I wrote this one](DESIGN.md).
+## Why
+
+There are a bunch of maybe-js libraries, all very similar to each other, so here's why I wrote this one.
+
+- Syntax
+
+    `Maybe`s are collections. I think a reasonable interface should be consistent with the collection interface of the host programming language.
+
+    This choice enforces the least surprise principle:
+    When you have to deal with a `Maybe` object you can use `filter`, `map` and `forEach` as you would with an array.
+    Think of a `Maybe` as an array of at most one element.
+
+- Stateless
+
+    I tried to follow functional paradigm as much as possible.
+
+    Every `Maybe` object is an instance of `Just` or `Nothing`, which one is decided during creation. Once an object is created it will never be explicitly modified by the library.
+
+    The wrapped value, anyway, is not side effect free: `filter`, `map` and `forEach` will apply a function on that value. Functions passed to those methods shouldn't modify the wrapped value (as far as possible) in order to keep everything stateless.
+
+- Portability
+
+    This code could work nearly anywhere, natively:
+    Here's my test environment for [IE6](https://github.com/emilianobovetti/stateless-maybe-js-ie6-test-env).
+    Here TypeScript [type definitions](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts).
+    Besides you don't need a whole FP framework to simply create a `Maybe`, currently the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version weighs about 1.7 kB.
+
+- Type consistency
+
+    One thing I don't like in other approaches is that sometimes you can't tell the type of an expression at a glance.
+    As you can see from TypeScript [type definitions](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts) the output of `Maybe` methods is another `Maybe` or a value:
+    `empty` and `nonEmpty` are booleans; `filter`, `map`, `forEach` and `orElse` always produce a `Maybe` istance; `get` or `getOrThrow` will return the wrapped value or throw an error; `getOrElse` will return the wrapped value or the `orElse` parameter (see below); `toString` will produce a string.
+
+- Information hiding
+
+    When the wrapped value is publicly exposed the user code can still do something like
+
+    ```javascript
+    if (maybe.value == null) {
+      // ...
+    }
+    ```
+
+    nullifying the purpose of the library.
+
+    Here, on the other hand, the wrapped value is hidden and user code has to rely on public methods and properties.
+
+Read more on [design](DESIGN.md).
 
 ## Installation
 
@@ -27,11 +74,11 @@ const maybe = require('stateless-maybe-js');
 
 ## Build
 
-A Makefile will call yarn for you and then uglifyjs to produce `./dist/maybe.min.js`. Just point your console to the project path and run `make`. `make test` is a shortcut for `yarn run test`.
+A Makefile will call yarn for you and then [uglify-js](https://github.com/mishoo/UglifyJS2) to produce `./dist/maybe.min.js`. Just point your console to the project path and run `make`.
 
 ## How to create new Maybe
 
-`maybe(someValue)` creates a new `Maybe` object wrapping `someValue`. A `Nothing` is returned if the value is `null` or `undefined`. E.g.:
+`maybe(someValue)` creates a new `Maybe` object wrapping `someValue`. A `Nothing` is returned if `someValue` is `null` or `undefined`.
 
 ```javascript
 var m1 = maybe('hello, world');
@@ -53,7 +100,7 @@ var m = maybe('hello, world');
 m === maybe(m); // true
 ```
 
-If the emptiness definition isn't trivial (i.e. `null` or `undefined`), you can use `maybe.nothing` and `maybe.just()`. E.g.:
+If the emptiness definition isn't trivial (i.e. `null` or `undefined`), you can use `maybe.nothing` and `maybe.just()`.
 
 ```javascript
 function maybeYoungPeople (people, maxAge, atLeast) {
@@ -74,13 +121,20 @@ maybeYoungPeople(people, 14, 2).empty; // true
 maybeYoungPeople(people, 16, 3).empty; // true
 ```
 
-Note that `maybe.just()`, unlike `maybe()`, doesn't make any emptiness check. A `Just` instance is always created.
+Note that `maybe.just()`, unlike `maybe()`, doesn't make any check. A `Just` instance is always created.
 
 ```javascript
-var m = maybe.just(null);
+// `Maybe`s containing null or undefined can be created
+var m1 = maybe.just(null);
 
-m.empty; // false
-m.get(); // null
+m1.empty; // false
+m1.get(); // null
+
+var m2 = maybe('hello, world');
+
+// `Maybe`s can be nested with `maybe.just()`
+m2 !== maybe.just(m2);
+m2 === maybe.just(m2).get();
 ```
 
 ## Type specific constructors
@@ -88,11 +142,23 @@ m.get(); // null
 ### `maybe.string(value)`
 Checks if `typeof value` is `string` and it's not an empty string.
 
+```javascript
+maybe.string('') === maybe.nothing;
+```
+
 ### `maybe.number(value)`
 Returns `maybe.just(value)` if `typeof value === 'number'`.
 
+```javascript
+maybe.number('1') === maybe.nothing;
+```
+
 ### `maybe.object(value)`
 Checks if `typeof value` is `object` and it's not `null`.
+
+```javascript
+maybe.object(null) === maybe.nothing;
+```
 
 ## Using Maybes
 
@@ -111,7 +177,7 @@ maybeGetUser(id)
   .getOrElse('unknown');
 ```
 
-You can use the `maybe()` function to wrap a lot of useful objects. E.g.:
+You can use the `maybe()` function to wrap a lot of useful objects.
 
 ```javascript
 function maybeGetElementById (id) {
@@ -176,7 +242,7 @@ function updateMetaDescription (desc) {
 
 - [Cache function result](https://gist.github.com/emilianobovetti/9245d6b0c3dc03461446fadc6a3c75da)
 
-- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/8bf6eed1e8d43983fd1094c08e0284aab50b29ab/assets/js/main.js#L151)
+- [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/6e9f150bcd225b9af9a636e6e267d3699578fa14/assets/js/main.js#L151)
 
 ## Maybe object properties
 
