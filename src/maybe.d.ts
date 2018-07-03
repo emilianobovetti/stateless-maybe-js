@@ -24,7 +24,7 @@ export interface Maybe<T> {
     getOrElse(fn: () => T): T;
     getOrElse(val: T): T;
 
-    getOrThrow<E extends Error>(err: E): T;
+    getOrThrow(err: Error): T;
 
     toString(): string;
 }
