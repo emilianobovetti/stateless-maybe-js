@@ -52,7 +52,7 @@
     return facade(value);
   }
 
-  maybe.from = maybe.default = function (value) {
+  maybe.from = function (value) {
     return facade(value);
   };
 
