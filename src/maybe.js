@@ -59,25 +59,25 @@
   maybe.string = function (value) {
     if (typeof value !== 'string' || value === '') {
       return maybe.nothing;
-    } else {
-      return maybe.just(value);
     }
+
+    return maybe.just(value);
   };
 
   maybe.number = function (value) {
     if (typeof value !== 'number') {
       return maybe.nothing;
-    } else {
-      return maybe.just(value);
     }
+
+    return maybe.just(value);
   };
 
   maybe.object = function (value) {
     if (typeof value !== 'object') {
       return maybe.nothing;
-    } else {
-      return maybe(value);
     }
+
+    return maybe(value);
   };
 
   Ctor.prototype = freeze({
