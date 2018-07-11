@@ -17,7 +17,7 @@
  */
 
 const maybe = require("../src/maybe");
-const assert = require("assert").strict;
+const assert = require("assert");
 const should = require("should");
 const sinon = require("sinon");
 require("should-sinon");
