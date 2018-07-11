@@ -33,7 +33,7 @@ There are a bunch of maybe-js libraries, all very similar to each other, so here
 
     Here TypeScript [type definitions](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts).
 
-    Besides you don't need a whole FP framework to simply create a `Maybe`, currently the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version weighs about 1.7 kB.
+    Besides you don't need a whole FP framework to simply create a `Maybe`, currently the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version weighs about 1.2 kB.
 
 - Type consistency
 
