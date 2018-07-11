@@ -2,13 +2,13 @@ sudo: false
 
 language: generic
 
-cache:
-  directories:
-    - node_modules
-
 script:
   - make
 
 branches:
   only:
     - master
+
+addons:
+  apt:
+    update: true
