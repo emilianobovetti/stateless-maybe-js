@@ -28,15 +28,18 @@ There are a bunch of maybe-js libraries, all very similar to each other, so here
 - Portability
 
     This code could work nearly anywhere, natively:
+
     Here's my test environment for [IE6](https://github.com/emilianobovetti/stateless-maybe-js-ie6-test-env).
+
     Here TypeScript [type definitions](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts).
+
     Besides you don't need a whole FP framework to simply create a `Maybe`, currently the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version weighs about 1.7 kB.
 
 - Type consistency
 
     One thing I don't like in other approaches is that sometimes you can't tell the type of an expression at a glance.
-    As you can see from TypeScript [type definitions](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts) the output of `Maybe` methods is another `Maybe` or a value:
-    `empty` and `nonEmpty` are booleans; `filter`, `map`, `forEach` and `orElse` always produce a `Maybe` istance; `get` or `getOrThrow` will return the wrapped value or throw an error; `getOrElse` will return the wrapped value or the `orElse` parameter (see below); `toString` will produce a string.
+
+    Every method here returns either a `Maybe` *or* a non-`Maybe` value, and I think this property helps a lot method chaining.
 
 - Information hiding
 
@@ -78,7 +81,9 @@ A Makefile will call yarn for you and then [uglify-js](https://github.com/mishoo
 
 ## How to create new Maybe
 
-`maybe(someValue)` creates a new `Maybe` object wrapping `someValue`. A `Nothing` is returned if `someValue` is `null` or `undefined`.
+`maybe(someValue)` creates a new `Maybe` object wrapping `someValue`.
+
+If `someValue` is `null` or `undefined` the result will be a `Nothing` instance, otherwise it'll be `Just(someValue)`.
 
 ```javascript
 var m1 = maybe('hello, world');
@@ -96,7 +101,7 @@ m3.empty; // true
 var m = maybe('hello, world');
 
 // when maybe() receives a maybe monad
-// just returns itself
+// it simply returns the maybe itself
 m === maybe(m); // true
 ```
 
@@ -121,10 +126,10 @@ maybeYoungPeople(people, 14, 2).empty; // true
 maybeYoungPeople(people, 16, 3).empty; // true
 ```
 
-Note that `maybe.just()`, unlike `maybe()`, doesn't make any check. A `Just` instance is always created.
+Note that `maybe.just()`, unlike `maybe()`, doesn't make any check. A `Just` instance is *always* created.
 
 ```javascript
-// `Maybe`s containing null or undefined can be created
+// `Maybe`s *can* contain null or undefined
 var m1 = maybe.just(null);
 
 m1.empty; // false
@@ -132,9 +137,19 @@ m1.get(); // null
 
 var m2 = maybe('hello, world');
 
-// `Maybe`s can be nested with `maybe.just()`
+// `Maybe`s *can* be nested with `maybe.just()`
 m2 !== maybe.just(m2);
 m2 === maybe.just(m2).get();
+```
+
+In a nutshell with `maybe.just()` you are explicitly asking for a `Just` instance.
+
+If you want to be sure the wrapped value isn't `null` or `undefined`, avoid `maybe.just()`.
+
+```javascript
+var m = notSure === 0
+  ? maybe.nothing
+  : maybe(notSure);
 ```
 
 ## Type specific constructors
@@ -150,6 +165,7 @@ maybe.string('') === maybe.nothing;
 Returns `maybe.just(value)` if `typeof value === 'number'`.
 
 ```javascript
+// strings are *not* numbers
 maybe.number('1') === maybe.nothing;
 ```
 
@@ -240,17 +256,21 @@ function updateMetaDescription (desc) {
 
 ## Other usage examples
 
+- [stateless-maybe-js in react](https://codepen.io/emilianobovetti/pen/GBgMVw?editors=0010)
+
 - [Cache function result](https://gist.github.com/emilianobovetti/9245d6b0c3dc03461446fadc6a3c75da)
 
 - [Touch event handler](https://github.com/emilianobovetti/hearweart/blob/6e9f150bcd225b9af9a636e6e267d3699578fa14/assets/js/main.js#L151)
 
-## Maybe object properties
+## Properties
 
 ### `maybe.empty`
 `true` if the maybe is `nothing`, false otherwise.
 
 ### `maybe.nonEmpty`
 Negation of `maybe.empty`.
+
+## Methods
 
 ### `maybe.filter(Function fn)`
 If the maybe is non-empty and `fn(value) == false`, returns `nothing`.
@@ -297,6 +317,7 @@ import { Maybe } from 'stateless-maybe-js';
 // Instead of `maybe()` we can use `maybe.from()`.
 let maybeStr: Maybe<string> = maybe.from('1');
 
+// `filter` method won't change the type, so this assignment is valid
 maybeStr = maybeStr.filter(str => str.trim() !== '');
 
 function parseNum(str: string): Maybe<number> {
