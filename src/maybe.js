@@ -57,27 +57,21 @@
   };
 
   maybe.string = function (value) {
-    if (typeof value !== 'string' || value === '') {
-      return maybe.nothing;
-    }
-
-    return maybe.just(value);
+    return typeof value !== 'string' || value === ''
+      ? maybe.nothing
+      : maybe.just(value);
   };
 
   maybe.number = function (value) {
-    if (typeof value !== 'number') {
-      return maybe.nothing;
-    }
-
-    return maybe.just(value);
+    return typeof value !== 'number'
+      ? maybe.nothing
+      : maybe.just(value);
   };
 
   maybe.object = function (value) {
-    if (typeof value !== 'object') {
-      return maybe.nothing;
-    }
-
-    return maybe(value);
+    return typeof value !== 'object'
+      ? maybe.nothing
+      : maybe(value);
   };
 
   Ctor.prototype = freeze({
@@ -100,9 +94,9 @@
     },
 
     orElse: function (orElse) {
-      return this.nonEmpty
-        ? this
-        : maybe(this.getOrElse(orElse));
+      return this.empty
+        ? maybe(this.getOrElse(orElse))
+        : this;
     },
 
     getOrElse: function (orElse) {
@@ -112,9 +106,9 @@
     },
 
     getOrThrow: function (e) {
-      if (this.nonEmpty) return this.get();
+      if (this.empty) throw e || new Error('Trying to get value of Nothing');
 
-      throw e || new Error('Trying to get value of Nothing');
+      return this.get();
     },
 
     toString: function () {
