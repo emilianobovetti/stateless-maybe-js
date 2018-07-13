@@ -1,7 +1,7 @@
 # stateless-maybe-js
 
 [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js)
-![TypeScript](https://img.shields.io/badge/TypeScript-.d.ts-blue.svg)
+[![dist/maybe.min.js file size](https://badge-size.herokuapp.com/emilianobovetti/stateless-maybe-js/master/dist/maybe.min.js)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) [![TypeScript](https://img.shields.io/badge/TypeScript-.d.ts-blue.svg)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts) [![GPLv3 license](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/LICENSE)
 
 Portable, lightweight, zero-dependency implementation of [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad) — or [option type](https://en.wikipedia.org/wiki/Option_type) — in vanilla JavaScript.
 
@@ -33,7 +33,7 @@ There are a bunch of maybe-js libraries, all very similar to each other, so here
 
     Here TypeScript [type definitions](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts).
 
-    Besides you don't need a whole FP framework to simply create a `Maybe`, currently the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version weighs about 1.2 kB.
+    Besides you don't need a whole FP framework to simply create a `Maybe`, currently the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version is lightweight.
 
 - Type consistency
 
