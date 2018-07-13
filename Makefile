@@ -1,18 +1,18 @@
 # directories
-base_dir	:= $(CURDIR)
-build_dir	:= $(base_dir)/dist
-node_dir	:= $(base_dir)/node_modules
-node_bin	:= $(node_dir)/.bin
+base_dir := $(CURDIR)
+build_dir := $(base_dir)/dist
+node_dir := $(base_dir)/node_modules
+node_bin := $(node_dir)/.bin
 # source
-js_source	:= $(base_dir)/src/maybe.js
+js_source := $(base_dir)/src/maybe.js
 # target
-min_target	:= $(build_dir)/maybe.min.js
+min_target := $(build_dir)/maybe.min.js
 # node_modules executables
-uglifyjs	:= $(node_bin)/uglifyjs
+uglifyjs := $(node_bin)/uglifyjs
 
 all : yarn-check test
 	@mkdir -p $(build_dir)
-	@$(uglifyjs) $(js_source) --compress --mangle > $(min_target)
+	@$(uglifyjs) $(js_source) -c properties=false -m > $(min_target)
 
 .PHONY: test
 test : yarn-check

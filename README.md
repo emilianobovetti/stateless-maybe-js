@@ -265,7 +265,7 @@ function updateMetaDescription (desc) {
 ## Properties
 
 ### `maybe.empty`
-`true` if the maybe is `nothing`, false otherwise.
+`true` if the maybe is `nothing`, `false` otherwise.
 
 ### `maybe.nonEmpty`
 Negation of `maybe.empty`.
