@@ -40,4 +40,4 @@ export function object(val: any): Maybe<Object>;
 
 export function just<T>(val: T): Maybe<T>;
 
-export const nothing: Maybe<any>;
+export const nothing: Maybe<never>;
