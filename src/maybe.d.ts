@@ -36,7 +36,7 @@ export function string(val: any): Maybe<string>;
 
 export function number(val: any): Maybe<number>;
 
-export function object(val: any): Maybe<Object>;
+export function object(val: any): Maybe<object>;
 
 export function just<T>(val: T): Maybe<T>;
 
