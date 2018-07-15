@@ -16,8 +16,8 @@
     "fp",
     "typescript"
   ],
-  "main": "src/maybe.js",
-  "types": "src/maybe.d.ts",
+  "main": "./src/maybe.js",
+  "types": "./src/maybe.d.ts",
   "scripts": {
     "test": "./node_modules/.bin/mocha"
   },

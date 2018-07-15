@@ -1,7 +1,7 @@
 # stateless-maybe-js
 
 [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js)
-[![dist/maybe.min.js file size](https://badge-size.herokuapp.com/emilianobovetti/stateless-maybe-js/master/dist/maybe.min.js)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) [![TypeScript](https://img.shields.io/badge/TypeScript-.d.ts-blue.svg)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts) [![GPLv3 license](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/LICENSE)
+[![dist/maybe.min.js file size](https://badge-size.herokuapp.com/emilianobovetti/stateless-maybe-js/master/dist/maybe.min.js)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) [![devDependencies Status](https://david-dm.org/emilianobovetti/stateless-maybe-js/dev-status.svg)](https://david-dm.org/emilianobovetti/stateless-maybe-js?type=dev) [![TypeScript](https://img.shields.io/badge/TypeScript-.d.ts-blue.svg)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts) [![GPLv3 license](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/LICENSE)
 
 Portable, lightweight, zero-dependency implementation of [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad) — or [option type](https://en.wikipedia.org/wiki/Option_type) — in vanilla JavaScript.
 
@@ -174,6 +174,13 @@ Checks if `typeof value` is `object` and it's not `null`.
 
 ```javascript
 maybe.object(null) === maybe.nothing;
+```
+
+## Check if a value is a Maybe
+
+```javascript
+maybe.isInstance(null); // false
+maybe.isInstance(maybe(null)); // true
 ```
 
 ## Using Maybes

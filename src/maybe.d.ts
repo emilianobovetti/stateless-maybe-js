@@ -32,6 +32,8 @@ export interface Maybe<T> {
 export function from<T>(val: Maybe<T>): Maybe<T>;
 export function from<T>(val: T): Maybe<T>;
 
+export function isInstance(val: any): boolean;
+
 export function string(val: any): Maybe<string>;
 
 export function number(val: any): Maybe<number>;

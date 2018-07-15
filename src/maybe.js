@@ -52,6 +52,10 @@
     return facade(value);
   }
 
+  maybe.isInstance = function (value) {
+    return value instanceof Ctor;
+  };
+
   maybe.from = function (value) {
     return facade(value);
   };
