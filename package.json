@@ -1,7 +1,7 @@
 {
   "name": "stateless-maybe-js",
   "description": "A stateless implementation of the maybe monad",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "author": "Emiliano Bovetti",
   "license": "GPL-3.0",
   "keywords": [
@@ -31,10 +31,10 @@
   "devDependencies": {
     "jsverify": "^0.8.3",
     "lodash": "^4.17.10",
-    "mocha": "^5.0.0",
+    "mocha": "^5.2.0",
     "should": "^13.2.1",
     "should-sinon": "^0.0.6",
     "sinon": "^6.1.3",
-    "uglify-js": "^3.3.9"
+    "uglify-js": "^3.4.4"
   }
 }
