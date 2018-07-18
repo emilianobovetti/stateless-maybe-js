@@ -8,18 +8,19 @@ module.exports = {
         "ecmaVersion": 3
     },
     "rules": {
-        "complexity": [ "warn", 4 ],
+        //Best Practices
+        "complexity": [ "warn", 5 ],
         "curly": [ "error", "all" ],
         "dot-location": [ "error", "property" ],
         "dot-notation": [ "error", { allowKeywords: false } ],
         "eqeqeq": [ "error", "always", { "null": "ignore" } ],
         "max-classes-per-file": [ "error", 1 ],
+        "no-magic-numbers": [ "error", { "ignore": [ 0, 1, 2, 3 ] } ],
         "radix": [ "error", "always" ],
         "wrap-iife": [ "error", "outside" ],
         "yoda": [ "error", "never" ],
 
-        "init-declarations": [ "error", "always" ],
-
+        // Stylistic Issues
         "array-bracket-newline": [ "error", "consistent" ],
         "array-bracket-spacing": [ "error", "always" ],
         "array-element-newline": [ "error", "consistent" ],
@@ -38,14 +39,15 @@ module.exports = {
         "linebreak-style": [ "error", "unix" ],
         "max-depth": [ "warn", { "max": 4 } ],
         "max-len": [ "warn", { "code": 80 } ],
-        "max-lines": [ "warn", { "max": 300 } ],
+        "max-lines": [ "warn", { "max": 350 } ],
         "max-nested-callbacks": [ "warn", { "max": 4 } ],
         "max-params": [ "warn", { "max": 4 } ],
-        "max-statements": [ "warn", { "max": 13 } ],
+        //"max-statements": [ "warn", { "max": 10 } ],
         "max-statements-per-line": [ "warn", { "max": 1 } ],
+        "no-plusplus": [ "error", { "allowForLoopAfterthoughts": true } ],
         "object-curly-newline": [ "error", { "multiline": true } ],
         "object-curly-spacing": [ "error", "always" ],
-        "one-var": [ "error", "never" ],
+        "one-var": [ "error", { "uninitialized": "always" } ],
         "one-var-declaration-per-line": [ "error", "initializations" ],
         "operator-assignment": [ "error", "always" ],
         "padded-blocks": [ "error", { "classes": "always" } ],
@@ -56,12 +58,13 @@ module.exports = {
         "space-in-parens": [ "error", "never" ],
         "unicode-bom": [ "error", "never" ],
 
+        // Possible Errors
         "for-direction": "error",
         "getter-return": "error",
         "no-await-in-loop": "error",
         "no-compare-neg-zero": "error",
         "no-cond-assign": "error",
-        "no-console": "error",
+        "no-console": "off",
         "no-constant-condition": "error",
         "no-control-regex": "error",
         "no-debugger": "error",
@@ -91,6 +94,7 @@ module.exports = {
         "valid-jsdoc": "error",
         "valid-typeof": "error",
 
+        // Best Practices
         "accessor-pairs": "error",
         "array-callback-return": "error",
         "block-scoped-var": "error",
@@ -121,7 +125,6 @@ module.exports = {
         "no-labels": "error",
         "no-lone-blocks": "error",
         "no-loop-func": "error",
-        "no-magic-numbers": "error",
         "no-multi-spaces": "error",
         "no-multi-str": "error",
         "no-new": "error",
@@ -154,16 +157,18 @@ module.exports = {
         "require-await": "error",
         "vars-on-top": "error",
 
+        // Variables
         "no-delete-var": "error",
         "no-label-var": "error",
         "no-shadow": "error",
         "no-shadow-restricted-names": "error",
         "no-undef": "error",
         "no-undef-init": "error",
-        "no-undefined": "error",
+        "no-undefined": "off",
         "no-unused-vars": "error",
         "no-use-before-define": "error",
 
+        // Node.js and CommonJS
         "callback-return": "error",
         "global-require": "error",
         "handle-callback-err": "error",
@@ -175,6 +180,7 @@ module.exports = {
         "no-process-exit": "error",
         "no-sync": "error",
 
+        // Stylistic Issues
         "camelcase": "error",
         "comma-spacing": "error",
         "comma-style": "error",
@@ -202,7 +208,6 @@ module.exports = {
         "no-negated-condition": "error",
         "no-nested-ternary": "off",
         "no-new-object": "error",
-        "no-plusplus": "error",
         "no-tabs": "error",
         "no-ternary": "off",
         "no-trailing-spaces": "error",
@@ -226,5 +231,8 @@ module.exports = {
         "switch-colon-spacing": "error",
         "template-tag-spacing": "error",
         "wrap-regex": "error",
+
+        // ECMAScript 6
+        // TODO
     }
 };
