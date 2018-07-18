@@ -435,6 +435,12 @@ describe('maybe', () => {
     });
   });
 
+  describe('#number(NaN)', () => {
+    it('should be Nothing', () => {
+      maybe.number(NaN).should.be.equal(nothing);
+    });
+  });
+
   describe('#number(0)', () => {
     it('should be Just(0)', () => {
       maybe.number(0).get().should.be.equal(0);

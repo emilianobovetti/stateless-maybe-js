@@ -20,15 +20,20 @@
 
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
+
+    /* AMD. Register as an anonymous module. */
     define([], factory);
   } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like environments that support module.exports,
-    // like Node.
+
+    /*
+     * Node. Does not work with strict CommonJS, but
+     * only CommonJS-like environments that support module.exports,
+     * like Node.
+     */
     module.exports = factory();
   } else {
-    // Browser globals (root is window)
+
+    /* Browser globals (root is window) */
     root.maybe = factory();
   }
 }(this, function () {
@@ -40,16 +45,10 @@
 
   function Ctor () {}
 
-  function facade (value) {
+  function maybe (value) {
     return value == null
       ? maybe.nothing
-      : value instanceof Ctor
-      ? value
-      : maybe.just(value);
-  }
-
-  function maybe (value) {
-    return facade(value);
+      : value instanceof Ctor ? value : maybe.just(value);
   }
 
   maybe.isInstance = function (value) {
@@ -57,25 +56,25 @@
   };
 
   maybe.from = function (value) {
-    return facade(value);
+    return maybe(value);
   };
 
   maybe.string = function (value) {
-    return typeof value !== 'string' || value === ''
-      ? maybe.nothing
-      : maybe.just(value);
+    return typeof value === 'string' && value !== ''
+      ? maybe.just(value)
+      : maybe.nothing;
   };
 
   maybe.number = function (value) {
-    return typeof value !== 'number' || isNaN(value)
-      ? maybe.nothing
-      : maybe.just(value);
+    return typeof value === 'number' && !isNaN(value)
+      ? maybe.just(value)
+      : maybe.nothing;
   };
 
   maybe.object = function (value) {
-    return typeof value !== 'object'
-      ? maybe.nothing
-      : maybe(value);
+    return typeof value === 'object'
+      ? maybe(value)
+      : maybe.nothing;
   };
 
   Ctor.prototype = freeze({
@@ -92,7 +91,9 @@
     },
 
     forEach: function (fn) {
-      if (this.nonEmpty) fn(this.get());
+      if (this.nonEmpty) {
+        fn(this.get());
+      }
 
       return this;
     },
@@ -110,7 +111,9 @@
     },
 
     getOrThrow: function (e) {
-      if (this.empty) throw e || new Error('Trying to get value of Nothing');
+      if (this.empty) {
+        throw e || new Error('Trying to get value of Nothing');
+      }
 
       return this.get();
     },
@@ -146,7 +149,7 @@
     };
 
     return freeze(self);
-  })();
+  }());
 
   return maybe;
 }));
