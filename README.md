@@ -152,35 +152,39 @@ var m = notSure === 0
   : maybe(notSure);
 ```
 
+## Check if a value is a Maybe
+
+```javascript
+maybe.isInstance(null); // false
+maybe.isInstance(maybe(null)); // true
+```
+
 ## Type specific constructors
 
 ### `maybe.string(value)`
 Checks if `typeof value` is `string` and it's not an empty string.
 
 ```javascript
+maybe.string(1) === maybe.nothing;
 maybe.string('') === maybe.nothing;
 ```
 
 ### `maybe.number(value)`
-Returns `maybe.just(value)` if `typeof value === 'number'`.
+Returns `maybe.just(value)` if `typeof value === 'number'` and `value` isn't `NaN`.
 
 ```javascript
 // strings are *not* numbers
 maybe.number('1') === maybe.nothing;
+maybe.number(0/0) === maybe.nothing;
+maybe.number(NaN) === maybe.nothing;
 ```
 
 ### `maybe.object(value)`
 Checks if `typeof value` is `object` and it's not `null`.
 
 ```javascript
+maybe.object('') === maybe.nothing;
 maybe.object(null) === maybe.nothing;
-```
-
-## Check if a value is a Maybe
-
-```javascript
-maybe.isInstance(null); // false
-maybe.isInstance(maybe(null)); // true
 ```
 
 ## Using Maybes

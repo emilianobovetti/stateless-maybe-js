@@ -67,7 +67,7 @@
   };
 
   maybe.number = function (value) {
-    return typeof value !== 'number'
+    return typeof value !== 'number' || isNaN(value)
       ? maybe.nothing
       : maybe.just(value);
   };
