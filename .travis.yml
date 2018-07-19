@@ -8,6 +8,14 @@ node_js:
 script:
   - make
 
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - npx semantic-release
+  on:
+    branch: master
+
 addons:
   apt:
     update: true

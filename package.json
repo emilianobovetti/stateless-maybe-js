@@ -1,7 +1,7 @@
 {
   "name": "stateless-maybe-js",
   "description": "A stateless implementation of the maybe monad",
-  "version": "2.1.9",
+  "version": "0.0.0-development",
   "author": "Emiliano Bovetti",
   "license": "GPL-3.0",
   "keywords": [
@@ -19,7 +19,9 @@
   "main": "./src/maybe.js",
   "types": "./src/maybe.d.ts",
   "scripts": {
-    "test": "./node_modules/.bin/mocha"
+    "test": "./node_modules/.bin/mocha",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "repository": {
     "type": "git",
@@ -28,14 +30,28 @@
   "bugs": {
     "url": "https://github.com/emilianobovetti/stateless-maybe-js/issues"
   },
+  "release": {
+    "branch": "master",
+    "prepare": [
+      "@semantic-release/npm",
+      {
+        "path": "@semantic-release/git",
+        "assets": [ "package.json", "dist/*.js" ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "publish": [ "@semantic-release/github" ]
+  },
   "devDependencies": {
     "eslint": "^5.1.0",
     "jsverify": "^0.8.3",
     "lodash": "^4.17.10",
     "mocha": "^5.2.0",
+    "semantic-release": "^15.8.1",
     "should": "^13.2.1",
     "should-sinon": "^0.0.6",
     "sinon": "^6.1.3",
-    "uglify-js": "^3.4.4"
+    "uglify-js": "^3.4.4",
+    "travis-deploy-once": "^5.0.1"
   }
 }
