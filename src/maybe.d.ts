@@ -5,9 +5,9 @@
 export as namespace maybe;
 
 export interface Maybe<T> {
-    empty: boolean;
+    readonly empty: boolean;
 
-    nonEmpty: boolean;
+    readonly nonEmpty: boolean;
 
     filter(fn: (val: T) => boolean): Maybe<T>;
 
