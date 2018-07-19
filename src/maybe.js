@@ -59,21 +59,41 @@
     return maybe(value);
   };
 
+  function unbox (value) {
+    var unboxed = (value || {}).valueOf();
+
+    if (typeof value === 'function') {
+      return value;
+    }
+
+    if (typeof unboxed === 'object') {
+      return value;
+    }
+
+    return unboxed;
+  }
+
   maybe.string = function (value) {
-    return typeof value === 'string' && value !== ''
-      ? maybe.just(value)
+    var unboxed = unbox(value);
+
+    return typeof unboxed === 'string' && unboxed !== ''
+      ? maybe.just(unboxed)
       : maybe.nothing;
   };
 
   maybe.number = function (value) {
-    return typeof value === 'number' && !isNaN(value)
-      ? maybe.just(value)
+    var unboxed = unbox(value);
+
+    return typeof unboxed === 'number' && !isNaN(unboxed)
+      ? maybe.just(unboxed)
       : maybe.nothing;
   };
 
   maybe.object = function (value) {
-    return typeof value === 'object'
-      ? maybe(value)
+    var unboxed = unbox(value);
+
+    return typeof unboxed === 'object'
+      ? maybe(unboxed)
       : maybe.nothing;
   };
 

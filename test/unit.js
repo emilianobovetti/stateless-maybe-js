@@ -374,6 +374,18 @@ describe('maybe', () => {
     });
   });
 
+  describe('#string(Object(""))', () => {
+    it('should be Nothing', () => {
+      maybe.string(Object('')).should.be.equal(nothing);
+    });
+  });
+
+  describe('#string(Object("hello"))', () => {
+    it('should be Just("hello")', () => {
+      maybe.string(Object('hello')).get().should.be.equal('hello');
+    });
+  });
+
   describe('#string("hello")', () => {
     it('should be Just("hello")', () => {
       maybe.string('hello').get().should.be.equal('hello');
@@ -441,6 +453,24 @@ describe('maybe', () => {
     });
   });
 
+  describe('#number(Object("0"))', () => {
+    it('should be Nothing', () => {
+      maybe.number(Object('0')).should.be.equal(nothing);
+    });
+  });
+
+  describe('#number(Object(NaN))', () => {
+    it('should be Nothing', () => {
+      maybe.number(Object(NaN)).should.be.equal(nothing);
+    });
+  });
+
+  describe('#number(Object(0))', () => {
+    it('should be Just(0)', () => {
+      maybe.number(Object(0)).get().should.be.equal(0);
+    });
+  });
+
   describe('#number(0)', () => {
     it('should be Just(0)', () => {
       maybe.number(0).get().should.be.equal(0);
@@ -493,6 +523,30 @@ describe('maybe', () => {
   describe('#object("")', () => {
     it('should be Nothing', () => {
       maybe.object('').should.be.equal(nothing);
+    });
+  });
+
+  describe('#object(Object(""))', () => {
+    it('should be Nothing', () => {
+      maybe.object(Object('')).should.be.equal(nothing);
+    });
+  });
+
+  describe('#object(Object("hello"))', () => {
+    it('should be Nothing', () => {
+      maybe.object(Object('hello')).should.be.equal(nothing);
+    });
+  });
+
+  describe('#object(Object(NaN))', () => {
+    it('should be Nothing', () => {
+      maybe.object(Object(NaN)).should.be.equal(nothing);
+    });
+  });
+
+  describe('#object(Object(0))', () => {
+    it('should be Nothing', () => {
+      maybe.object(Object(0)).should.be.equal(nothing);
     });
   });
 

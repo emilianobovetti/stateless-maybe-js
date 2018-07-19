@@ -161,12 +161,16 @@ maybe.isInstance(maybe(null)); // true
 
 ## Type specific constructors
 
+All type-specific constructors also unbox their value before making checks, so `0` and `Object(0)` are treated identically.
+
 ### `maybe.string(value)`
 Checks if `typeof value` is `string` and it's not an empty string.
 
 ```javascript
 maybe.string(1) === maybe.nothing;
 maybe.string('') === maybe.nothing;
+
+maybe.string(Object('hello')).get() === 'hello';
 ```
 
 ### `maybe.number(value)`
@@ -177,6 +181,8 @@ Returns `maybe.just(value)` if `typeof value === 'number'` and `value` isn't `Na
 maybe.number('1') === maybe.nothing;
 maybe.number(0/0) === maybe.nothing;
 maybe.number(NaN) === maybe.nothing;
+
+maybe.number(Object(1)).get() === 1;
 ```
 
 ### `maybe.object(value)`
@@ -185,6 +191,9 @@ Checks if `typeof value` is `object` and it's not `null`.
 ```javascript
 maybe.object('') === maybe.nothing;
 maybe.object(null) === maybe.nothing;
+
+maybe.object(Object('hello')) === maybe.nothing;
+maybe.object(Object(1)) === maybe.nothing;
 ```
 
 ## Using Maybes
