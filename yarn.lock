@@ -37,9 +37,24 @@
     import-from "^2.1.0"
     lodash "^4.17.4"
 
-"@semantic-release/error@^2.2.0":
+"@semantic-release/error@^2.1.0", "@semantic-release/error@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@semantic-release/error/-/error-2.2.0.tgz#ee9d5a09c9969eade1ec864776aeda5c5cddbbf0"
+
+"@semantic-release/git@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@semantic-release/git/-/git-7.0.1.tgz#18ff915552b022f72ef5c2063d0e85f046ee8be0"
+  dependencies:
+    "@semantic-release/error" "^2.1.0"
+    aggregate-error "^1.0.0"
+    debug "^3.1.0"
+    dir-glob "^2.0.0"
+    execa "^0.10.0"
+    fs-extra "^7.0.0"
+    globby "^8.0.1"
+    lodash "^4.17.4"
+    micromatch "^3.1.4"
+    p-reduce "^1.0.0"
 
 "@semantic-release/github@^5.0.0":
   version "5.0.1"
@@ -1673,7 +1688,7 @@ globby@^5.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-globby@^8.0.0:
+globby@^8.0.0, globby@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/globby/-/globby-8.0.1.tgz#b5ad48b8aa80b35b814fc1281ecc851f1d2b5b50"
   dependencies:
@@ -2446,7 +2461,7 @@ merge2@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.2.2.tgz#03212e3da8d86c4d8523cebd6318193414f94e34"
 
-micromatch@^3.1.10:
+micromatch@^3.1.10, micromatch@^3.1.4:
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-3.1.10.tgz#70859bc95c9840952f359a068a3fc49f9ecfac23"
   dependencies:
