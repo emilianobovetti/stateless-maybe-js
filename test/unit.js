@@ -251,6 +251,19 @@ describe('maybe.just(0)', () => {
 // maybe
 describe('maybe', () => {
 
+  // maybe.isInstance
+  describe('#isInstance(null)', () => {
+    it('should be false', () => {
+      maybe.isInstance(null).should.be.false();
+    });
+  });
+
+  describe('#isInstance(maybe(null))', () => {
+    it('should be true', () => {
+      maybe.isInstance(maybe(null)).should.be.true();
+    });
+  });
+
   // maybe.from
   describe('#from(null)', () => {
     it('should be Nothing', () => {
@@ -260,7 +273,6 @@ describe('maybe', () => {
 
   describe('#from(undefined)', () => {
     it('should be Nothing', () => {
-      assert
       maybe.from(undefined).should.be.equal(nothing);
     });
   });
@@ -579,13 +591,13 @@ describe('maybe', () => {
 
   describe('#just(true)', () => {
     it('should be Just(true)', () => {
-      maybe.just(true).get().should.be.equal(true);
+      maybe.just(true).get().should.be.true();
     });
   });
 
   describe('#just(false)', () => {
     it('should be Just(false)', () => {
-      maybe.just(false).get().should.be.equal(false);
+      maybe.just(false).get().should.be.false();
     });
   });
 
