@@ -19,6 +19,10 @@
 /* global define */
 
 (function (root, factory) {
+  /* istanbul ignore next
+   *
+   * Make `istanbul` ignore the universal module definition.
+   */
   if (typeof define === 'function' && define.amd) {
 
     /* AMD. Register as an anonymous module. */
@@ -39,6 +43,11 @@
 }(this, function () {
   'use strict';
 
+  /* istanbul ignore next
+   *
+   * On older browsers identity function is used in place of
+   * `Object.freeze`. `istanbul` can safely ignore this assignment.
+   */
   var freeze = Object.freeze || function (object) {
     return object;
   };
