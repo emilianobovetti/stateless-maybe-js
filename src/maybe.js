@@ -43,6 +43,8 @@
 }(this, function () {
   'use strict';
 
+  var just, nothing;
+
   /* istanbul ignore next
    *
    * On older browsers identity function is used in place of
@@ -52,65 +54,34 @@
     return object;
   };
 
-  function Ctor () {}
+  /*
+   * Maybe constructor: this function is used internally
+   * to attach prototype to maybe objects and with `instanceof`.
+   */
+  function Ctor (empty) {
+    this.empty = empty;
 
+    this.nonEmpty = !empty;
+  }
+
+  /*
+   * Façade: returns a Nothing if value is `null` or `undefined`,
+   * returns Just(value) otherwise.
+   */
   function maybe (value) {
     return value == null
-      ? maybe.nothing
-      : value instanceof Ctor ? value : maybe.just(value);
+      ? nothing
+      : value instanceof Ctor ? value : just(value);
   }
 
-  maybe.isInstance = function (value) {
-    return value instanceof Ctor;
-  };
-
-  maybe.from = function (value) {
-    return maybe(value);
-  };
-
-  function unbox (value) {
-    var unboxed = (value || {}).valueOf();
-
-    if (typeof value === 'function') {
-      return value;
-    }
-
-    if (typeof unboxed === 'object') {
-      return value;
-    }
-
-    return unboxed;
-  }
-
-  maybe.string = function (value) {
-    var unboxed = unbox(value);
-
-    return typeof unboxed === 'string' && unboxed !== ''
-      ? maybe.just(unboxed)
-      : maybe.nothing;
-  };
-
-  maybe.number = function (value) {
-    var unboxed = unbox(value);
-
-    return typeof unboxed === 'number' && !isNaN(unboxed)
-      ? maybe.just(unboxed)
-      : maybe.nothing;
-  };
-
-  maybe.object = function (value) {
-    var unboxed = unbox(value);
-
-    return typeof unboxed === 'object'
-      ? maybe(unboxed)
-      : maybe.nothing;
-  };
-
+  /*
+   * Maybe prototype: common maybe methods.
+   */
   Ctor.prototype = freeze({
     filter: function (fn) {
       return this.empty
         ? this
-        : fn(this.get()) ? this : maybe.nothing;
+        : fn(this.get()) ? this : nothing;
     },
 
     map: function (fn) {
@@ -139,46 +110,129 @@
         : typeof orElse === 'function' ? orElse() : orElse;
     },
 
-    getOrThrow: function (e) {
-      if (this.empty) {
-        throw e || new Error('Trying to get value of Nothing');
-      }
-
-      return this.get();
-    },
-
     toString: function () {
       return this.empty ? '' : String(this.get());
     }
   });
 
-  maybe.just = function (value) {
-    var self = new Ctor();
-
-    self.empty = false;
-
-    self.nonEmpty = true;
+  /*
+   * Just constructor: a function that always returns
+   * a `Just` instance.
+   */
+  just = function (value) {
+    var self = new Ctor(false);
 
     self.get = function () {
       return value;
     };
 
+    self.getOrThrow = self.get;
+
     return freeze(self);
   };
 
-  maybe.nothing = (function () {
-    var self = new Ctor();
+  /*
+   * A `Nothing` instance.
+   */
+  nothing = new Ctor(true);
 
-    self.empty = true;
+  nothing.get = function (e) {
+    throw e || new Error('Trying to get value of Nothing');
+  };
 
-    self.nonEmpty = false;
+  nothing.getOrThrow = nothing.get;
 
-    self.get = function () {
-      self.getOrThrow();
-    };
+  freeze(nothing);
 
-    return freeze(self);
-  }());
+  /*
+   * Helper function that unbox values inside objects:
+   *
+   * unbox(Object(1)) -> 1
+   * unbox(Object('string')) -> 'string'
+   */
+  function unbox (value) {
+    var unboxed = (value || {}).valueOf();
+
+    if (typeof value === 'function' || typeof unboxed === 'object') {
+      return value;
+    }
+
+    return unboxed;
+  }
+
+  /*
+   * Since `Ctor` isn't exposed, this function allows to determine
+   * if an object is a maybe instance.
+   */
+  maybe.isInstance = function (value) {
+    return value instanceof Ctor;
+  };
+
+  /*
+   * Alias of `maybe` function, used in TypeScript.
+   */
+  maybe.from = function (value) {
+    return maybe(value);
+  };
+
+  /*
+   * Creates a maybe object that contains a non-empty string.
+   *
+   * maybe.string('string') -> Just('string')
+   * maybe.string(Object('string')) -> Just('string')
+   *
+   * maybe.string('') -> Nothing
+   * maybe.string(Object('')) -> Nothing
+   * maybe.string(<anything else>) -> Nothing
+   */
+  maybe.string = function (value) {
+    var unboxed = unbox(value);
+
+    return typeof unboxed === 'string' && unboxed !== ''
+      ? just(unboxed)
+      : nothing;
+  };
+
+  /*
+   * Creates a maybe object that contains a number that is not NaN.
+   *
+   * maybe.number(0) -> Just(0)
+   * maybe.number(Object(0)) -> Just(0)
+   *
+   * maybe.number(NaN) -> Nothing
+   * maybe.number(Object(NaN)) -> Nothing
+   * maybe.number(<anything else>) -> Nothing
+   */
+  maybe.number = function (value) {
+    var unboxed = unbox(value);
+
+    return typeof unboxed === 'number' && !isNaN(unboxed)
+      ? just(unboxed)
+      : nothing;
+  };
+
+  /*
+   * Creates a maybe object that contains a non-primitive object.
+   *
+   * maybe.object({}) -> Just({})
+   * maybe.object([]) -> Just([])
+   *
+   * maybe.object(Object('')) -> Nothing
+   * maybe.object(Object('string')) -> Nothing
+   * maybe.object(Object(0)) -> Nothing
+   * maybe.object(Object(NaN)) -> Nothing
+   */
+  maybe.object = function (value) {
+    var unboxed = unbox(value);
+
+    return typeof unboxed === 'object'
+      ? maybe(unboxed)
+      : nothing;
+  };
+
+  maybe.just = just;
+
+  maybe.nothing = nothing;
 
   return maybe;
 }));

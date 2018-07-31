@@ -91,6 +91,14 @@ describe('maybe.nothing', () => {
     });
   });
 
+  describe('#get(new Error(..))', () => {
+    it('should throw the specified error', () => {
+      const error = new TypeError('Custom error');
+
+      (_ => nothing.get(error)).should.throw(error);
+    });
+  });
+
   // maybe.nothing.getOrElse
   describe('#getOrElse(1)', () => {
     it('should be 1', () => {

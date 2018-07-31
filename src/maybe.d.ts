@@ -1,4 +1,4 @@
-// Type definitions for stateless-maybe-js 2.1.x
+// Type definitions for stateless-maybe-js 2.2.x
 // Project: https://github.com/emilianobovetti/stateless-maybe-js
 // Definitions by: Emiliano Bovetti <https://github.com/emilianobovetti>
 
