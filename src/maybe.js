@@ -206,9 +206,9 @@
   maybe.number = function (value) {
     var unboxed = unbox(value);
 
-    return typeof unboxed === 'number' && !isNaN(unboxed)
-      ? just(unboxed)
-      : nothing;
+    return typeof unboxed !== 'number' || isNaN(unboxed) || !isFinite(unboxed)
+      ? nothing
+      : just(unboxed);
   };
 
   /*

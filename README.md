@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/emilianobovetti/stateless-maybe-js.svg?branch=master)](https://travis-ci.org/emilianobovetti/stateless-maybe-js)
 [![dist/maybe.min.js file size](https://badge-size.herokuapp.com/emilianobovetti/stateless-maybe-js/master/dist/maybe.min.js)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) [![Greenkeeper badge](https://badges.greenkeeper.io/emilianobovetti/stateless-maybe-js.svg)](https://greenkeeper.io/) [![Coverage Status](https://coveralls.io/repos/github/emilianobovetti/stateless-maybe-js/badge.svg?branch=master)](https://coveralls.io/github/emilianobovetti/stateless-maybe-js?branch=master) [![TypeScript](https://img.shields.io/badge/TypeScript-.d.ts-blue.svg)](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
+This code was ported to [fpc 2.0](https://github.com/emilianobovetti/fpc) as an es6 module. Check [here](https://github.com/emilianobovetti/fpc/blob/master/docs/maybe.md) the new docs.
+
 Portable, lightweight, zero-dependency implementation of [maybe monad](https://en.wikipedia.org/wiki/Monad_%28functional_programming%29#The_Maybe_monad) — or [option type](https://en.wikipedia.org/wiki/Option_type) — in vanilla JavaScript.
 
 ## Why
@@ -33,7 +35,7 @@ There are a bunch of maybe-js libraries, all very similar to each other, so here
 
     Here TypeScript [type definitions](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/src/maybe.d.ts).
 
-    Besides you don't need a whole FP framework to simply create a `Maybe`, currently the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version is lightweight.
+    Besides you don't need a whole FP framework to simply create a `Maybe`, the [minified](https://github.com/emilianobovetti/stateless-maybe-js/blob/master/dist/maybe.min.js) version is lightweight.
 
 - Type consistency
 
