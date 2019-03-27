@@ -150,9 +150,15 @@ Maybe.Nothing.prototype.map = function () {
 };
 ```
 
-This code guarantees us that the value of an expression like `aMaybe.map(fn)` is another `Maybe` regardless of what `fn` returns. We can look at that expression without knowing anything about `fn` and tell it's still a `Maybe`.
+This code guarantees us that the value of an expression like `maybeValue.map(fn)` is another `Maybe` regardless of what `fn` returns. So the following expression will always evaluate to `true`:
 
-Anyway to create a `new Maybe.Nothing()` every time a `Nothing` instance is needed is a waste. Performance isn't one of the design goals, but there is no point in create a lot of identical objects.
+```javascript
+  maybeValue.map(fn) instanceof Maybe.Just || maybeValue.map(fn) instanceof Maybe.Nothing
+```
+
+therefore method chaining is always safe: `maybeValue.map(fn).map(anotherFn)`.
+
+Moving forward: create an object with `new Maybe.Nothing()` every time a `Nothing` instance is needed is a waste. Performance isn't one of the design goals, but there is no point in create a lot of identical objects.
 
 ```javascript
 function Maybe (val) {
@@ -177,7 +183,9 @@ Maybe.Ctor.prototype.map = function (fn) {
 };
 ```
 
-We use `Maybe.Ctor` to create a `Maybe` instance so we can check if they are `Maybe` with `obj instanceof Maybe.Ctor`, then we attach the methods to its prototype. Now only one `Nothing` instance exist: `Maybe(undefined) === Maybe(null)`. As a bonus the `new` keyword is no longer needed when calling `Maybe.Just()`.
+We use `Maybe.Ctor` to create a `Maybe` instance so we can check if they are `Maybe` with `obj instanceof Maybe.Ctor`, then we attach the methods to its prototype. Now only one `Nothing` instance exist: `Maybe(undefined) === Maybe(null)`.
+
+As a bonus the `new` keyword is no longer needed when calling `Maybe.Just()`, plus `maybeValue.map(fn) instanceof instanceof Maybe.Ctor` is always `true`, no more need to check if is an instance of `Just` or `Nothing`.
 
 Information hiding
 ------------------
