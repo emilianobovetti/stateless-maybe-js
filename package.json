@@ -50,7 +50,7 @@
     "@semantic-release/git": "^7.0.8",
     "coveralls": "^3.0.3",
     "cz-conventional-changelog": "^2.1.0",
-    "eslint": "^5.15.3",
+    "eslint": "^6.0.0",
     "jsverify": "^0.8.4",
     "lodash": "^4.17.11",
     "mocha": "^6.1.4",
