@@ -144,6 +144,13 @@
 
   freeze(nothing);
 
+  /* eslint-disable-next-line vars-on-top */
+  var
+    /* eslint-disable-next-line no-underscore-dangle, no-undef */
+    Symbol_ = typeof Symbol === 'undefined' ? String : Symbol,
+    /* eslint-disable-next-line no-underscore-dangle, no-undef */
+    BigInt_ = typeof BigInt === 'undefined' ? Number : BigInt;
+
   /*
    * Helper function that unbox values inside objects:
    *
@@ -151,13 +158,14 @@
    * unbox(Object('string')) -> 'string'
    */
   function unbox (value) {
-    var unboxed = (value || {}).valueOf();
+    var isBoxed =
+      value instanceof Number ||
+      value instanceof String ||
+      value instanceof Boolean ||
+      value instanceof Symbol_ ||
+      value instanceof BigInt_;
 
-    if (typeof value === 'function' || typeof unboxed === 'object') {
-      return value;
-    }
-
-    return unboxed;
+    return isBoxed ? value.valueOf() : value;
   }
 
   /*
@@ -206,9 +214,9 @@
   maybe.number = function (value) {
     var unboxed = unbox(value);
 
-    return typeof unboxed !== 'number' || isNaN(unboxed) || !isFinite(unboxed)
-      ? nothing
-      : just(unboxed);
+    return typeof unboxed === 'number' && !isNaN(unboxed) && isFinite(unboxed)
+      ? just(unboxed)
+      : nothing;
   };
 
   /*

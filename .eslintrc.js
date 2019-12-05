@@ -9,7 +9,7 @@ module.exports = {
     },
     "rules": {
         //Best Practices
-        "complexity": [ "warn", 5 ],
+        "complexity": [ "warn", 6 ],
         "curly": [ "error", "all" ],
         "dot-location": [ "error", "property" ],
         "dot-notation": [ "error", { allowKeywords: false } ],
