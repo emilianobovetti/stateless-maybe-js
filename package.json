@@ -54,7 +54,7 @@
     "jsverify": "^0.8.4",
     "lodash": "^4.17.15",
     "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "nyc": "^15.0.0",
     "semantic-release": "^15.13.31",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
