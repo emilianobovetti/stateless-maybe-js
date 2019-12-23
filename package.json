@@ -50,16 +50,16 @@
     "@semantic-release/git": "^7.0.18",
     "coveralls": "^3.0.9",
     "cz-conventional-changelog": "^3.0.0",
-    "eslint": "^6.7.2",
+    "eslint": "^6.8.0",
     "jsverify": "^0.8.4",
     "lodash": "^4.17.15",
     "mocha": "^6.2.2",
     "nyc": "^15.0.0",
-    "semantic-release": "^15.13.31",
+    "semantic-release": "^15.14.0",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
-    "sinon": "^8.0.0",
-    "uglify-js": "^3.7.1"
+    "sinon": "^8.0.1",
+    "uglify-js": "^3.7.2"
   },
   "config": {
     "commitizen": {
