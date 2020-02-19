@@ -58,7 +58,7 @@
     "semantic-release": "^17.0.0",
     "should": "^13.2.3",
     "should-sinon": "^0.0.6",
-    "sinon": "^8.0.1",
+    "sinon": "^9.0.0",
     "uglify-js": "^3.7.2"
   },
   "config": {
